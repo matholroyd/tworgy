@@ -1,0 +1,16 @@
+%div[user]
+  %p.email
+    %strong Email
+    = h user.email
+  %p.password
+    %strong Password
+    = h user.password
+  %p.password_confirmation
+    %strong Password confirmation
+    = h user.password_confirmation
+
+  = link_to 'Show', object_path(user)
+  |
+  = link_to 'Edit', edit_object_path(user)
+  |
+  = link_to 'Destroy', object_path(user), :confirm => 'Really destroy user?', :method => :delete

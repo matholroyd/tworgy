@@ -1,0 +1,16 @@
+%div[post]
+  %p.title
+    %strong Title
+    = h post.title
+  %p.factual
+    %strong Factual
+    = h post.factual
+  %p.fictional
+    %strong Fictional
+    = h post.fictional
+
+  = link_to 'Show', object_path(post)
+  |
+  = link_to 'Edit', edit_object_path(post)
+  |
+  = link_to 'Destroy', object_path(post), :confirm => 'Really destroy post?', :method => :delete

@@ -1,6 +1,11 @@
-development:
+production: &defaults
+    host: tworgy.com
+    name: Tworgy
     
 test:
-    
-production:
+    <<: *defaults
+
+development:
+    <<: *defaults
+    host: localhost:3000
     

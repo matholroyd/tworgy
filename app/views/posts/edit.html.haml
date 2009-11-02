@@ -1,0 +1,8 @@
+%h1 Editing post
+
+- semantic_form_for @post do |f|
+  = render :partial => "form", :locals => {:f => f}
+
+= link_to 'Show', object_path
+|
+= link_to 'Back', objects_path

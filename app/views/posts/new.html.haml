@@ -1,0 +1,7 @@
+%h1 Creating post
+
+
+- semantic_form_for @post do |f|
+  = render :partial => "form", :locals => {:f => f}
+
+= link_to 'Back', objects_path

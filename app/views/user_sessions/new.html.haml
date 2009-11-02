@@ -2,9 +2,9 @@
 
 = error_messages_for(:user_session)
 
-- airbudd_form_for @user_session, :url => user_session_path do |f|
+- semantic_form_for @user_session, :url => user_session_path do |f|
   = f.text_field :email
   = f.password_field :password
   - f.buttons do |b|
-    = f.save :label => 'Log in'
+    = f.commit_button :label => 'Log in'
 

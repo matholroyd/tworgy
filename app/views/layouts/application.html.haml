@@ -2,23 +2,22 @@
 %html
   %head
     %meta{'http-equiv' => "Content-Type", :content => "text/css; charset=utf-8"}
-    %title= yield(:title) || APP_NAME
-    = stylesheet_link_tag 'main'
-    = javascript_include_tag 'jquery-1.2.6.min', 'jquery.validate.min', 'jquery.field.min', :defaults
+    %title= yield(:title) || App[:name]
+    = stylesheet_link_tag 'formtastic', 'formtastic_changes'
+    / = javascript_include_tag 'jquery-1.2.6.min', 'jquery.validate.min', 'jquery.field.min', :defaults
     = yield(:head)
   %body
     #container
       #header
         = render :partial => 'shared/user_bar'
-        %h1 PUT YOUR APP TITLE HERE
+        %h1= App[:name]
       .site
         #side
           = yield(:side)
         #main
-          %h1= yield(:heading) || auto_heading
+          %h1= yield(:heading)
           %flash
             %notice= flash[:notice] unless flash[:notice].blank?
             %error= flash[:error] unless flash[:error].blank?
           = yield
     #footer
-
