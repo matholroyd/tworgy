@@ -1,0 +1,5 @@
+#user_bar.site
+  - if current_user
+    = link_to 'log out', logout_path
+  - else
+    = link_to 'log in', login_path
