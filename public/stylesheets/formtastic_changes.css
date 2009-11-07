@@ -9,5 +9,8 @@ form.formtastic fieldset ol li p.inline-hints { color:#333; }
 
 --------------------------------------------------------------------------------------------------*/
 
+form.formtastic fieldset { display: block; width: 800px; }
+form.formtastic fieldset.buttons { width:auto; padding-left:200px; }
+form.formtastic fieldset textarea { height:200px; }
+
 form.formtastic fieldset ol li { display: block; }
-form.formtastic fieldset { display: inline-block; width: 600px; }
