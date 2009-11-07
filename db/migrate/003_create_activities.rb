@@ -1,7 +1,7 @@
 class CreateActivities < ActiveRecord::Migration
   def self.up
     create_table :activities do |t|
-      t.title :string
+      t.string :title
 
       t.timestamps
     end

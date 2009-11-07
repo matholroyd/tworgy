@@ -3,5 +3,6 @@ class ActivitiesController < ApplicationController
 
   make_resourceful do
     actions :all
+    publish :json, :attributes => %w{id title}
   end
 end
