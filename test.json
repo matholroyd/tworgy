@@ -1,0 +1,8 @@
+POST /request HTTP/1.1
+Accept: application/json
+Content-Encoding: identity
+Content-Length: 72
+Content-Type: application/json
+
+{"user":"doctoravatar@penzance.com","forecast":7,"t":"vlIj","zip":94089}
+
