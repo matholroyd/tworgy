@@ -3,7 +3,7 @@ class ActivitiesController < ApplicationController
 
   make_resourceful do
     actions :all
-    publish :json, :attributes => %w{id title}
+    publish :json, :attributes => %w{id title start_at duration username place}
   end
   
   def create
