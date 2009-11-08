@@ -26,3 +26,14 @@ Goals
 - Walk through of climate change supporting claims (man-made climatic changes are possible, man has killed himself before without)
 
 - Discussion of journalism
+
+
+Melb Hack
+=========
+
+- Get data about activities
+  - Name
+  - Start/Finish
+  - Location
+- Process lists to update
+  
