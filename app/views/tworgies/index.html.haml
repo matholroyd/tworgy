@@ -1,0 +1,106 @@
+- content_for :head do
+  %meta{:name => "viewport", :content => "initial-scale=1.0, user-scalable=no"}
+  %script{:type => "text/javascript", :src => "http://maps.google.com/maps/api/js?sensor=false"}
+  %script{:type => "text/javascript", :src => "http://www.google.com/jsapi"}
+  :javascript
+    var geocoder = new google.maps.Geocoder();
+    var map;
+    var marker;
+  
+    function setupMap() {
+      var latlng = new google.maps.LatLng(-34.397, 150.644);
+      var myOptions = {
+        zoom: 8,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+      
+      if (google.loader.ClientLocation) {
+        zoom = 13;
+        latlng = new google.maps.LatLng(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude);
+        map.panTo(latlng);
+      }
+      
+    }
+    
+    function addMarker() {
+      if(marker) {
+        clearMarker();
+      }
+      marker = new google.maps.Marker({
+        position: map.getCenter(), 
+        map: map, 
+        title:"Hello World!",
+        draggable:true
+      });
+      
+      // Add dragging event listeners.
+       google.maps.event.addListener(marker, 'dragstart', function() {
+         updateMarkerAddress('Dragging...');
+       });
+
+       google.maps.event.addListener(marker, 'drag', function() {
+         updateMarkerStatus('Dragging...');
+         updateMarkerPosition(marker.get_position());
+       });
+
+       google.maps.event.addListener(marker, 'dragend', function() {
+         updateMarkerStatus('Drag ended');
+         geocodePosition(marker.get_position());
+       });
+    }
+    
+    function clearMarker() {
+      if(marker) {
+        marker.setMap(null);
+      }
+    }
+    
+    function geocodePosition(pos) {
+      geocoder.geocode({latLng: pos}, function(responses) {
+        if (responses && responses.length > 0) {
+          updateMarkerAddress(responses[0].formatted_address);
+        } else {
+          updateMarkerAddress('Cannot determine address at this location.');
+        }
+      });
+    }
+    
+    function updateMarkerStatus(str) {
+      $('#markerStatus').html(str);
+    }
+
+    function updateMarkerPosition(latLng) {
+      $('#markerPosition').html([latLng.lat(), latLng.lng()].join(', '));
+    }
+    
+    function updateMarkerAddress(str) {
+      $('#markerAddress').html(str);
+    }
+
+    $(document).ready(function() {
+       setupMap();
+
+       $('#addMarker').click(function() {
+         addMarker();
+       });
+
+       $('#clearMarker').click(function() {
+         clearMarker();
+       });
+     });   
+    
+%input#addMarker{:type => 'submit', :value => 'Add Marker'}
+%input#clearMarker{:type => 'submit', :value => 'Clear Marker'}
+%div{:id => "map_canvas", :style => "width:600px; height:500px"}
+%p
+  %b Marker Status
+  %span#markerStatus
+%p 
+  %b Marker Position
+  %span#markerPosition
+%p
+  %b Marker Address
+  %span#markerAddress
+  

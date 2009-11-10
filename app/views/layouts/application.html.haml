@@ -4,9 +4,9 @@
     %meta{'http-equiv' => "Content-Type", :content => "text/css; charset=utf-8"}
     %title= yield(:title) || App[:name]
     = stylesheet_link_tag 'formtastic', 'formtastic_changes'
-    / = javascript_include_tag 'jquery-1.2.6.min', 'jquery.validate.min', 'jquery.field.min', :defaults
+    %script{:type => "text/javascript", :src => "http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js"}
     = yield(:head)
-  %body
+  %body{:onload => (yield(:body_onload) || '')}
     #container
       #header
         = render :partial => 'shared/user_bar'
