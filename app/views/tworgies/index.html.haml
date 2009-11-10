@@ -9,31 +9,44 @@
   
     function setupMap() {
       var latlng = new google.maps.LatLng(-34.397, 150.644);
+      if (google.loader.ClientLocation) {
+        latlng = new google.maps.LatLng(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude);
+      }
+
       var myOptions = {
-        zoom: 8,
+        zoom: 13,
         center: latlng,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
-      map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-      
-      if (google.loader.ClientLocation) {
-        zoom = 13;
-        latlng = new google.maps.LatLng(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude);
-        map.panTo(latlng);
-      }
-      
+      map = new google.maps.Map($("#map_canvas:first")[0], myOptions);
     }
     
-    function addMarker() {
+    function findAddress() {
+      geocoder.geocode( { 'address': $('#inputAddress').val()}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          addMarker(results);
+        } else {
+          alert("Geocode was not successful for the following reason: " + status);
+        }
+      });
+    }
+     
+    function addMarker(geocoderResponse) {
       if(marker) {
         clearMarker();
       }
+      
+      pos = geocoderResponse[0].geometry.location;
+      
       marker = new google.maps.Marker({
-        position: map.getCenter(), 
+        position: pos,
         map: map, 
         title:"Hello World!",
         draggable:true
       });
+      
+      //map.panTo(pos);
+      map.fitBounds(geocoderResponse[0].geometry.bounds);
       
       // Add dragging event listeners.
        google.maps.event.addListener(marker, 'dragstart', function() {
@@ -89,11 +102,22 @@
        $('#clearMarker').click(function() {
          clearMarker();
        });
+       
+       $('#findAddress').click(function() {
+          findAddress();
+       });
      });   
     
-%input#addMarker{:type => 'submit', :value => 'Add Marker'}
-%input#clearMarker{:type => 'submit', :value => 'Clear Marker'}
-%div{:id => "map_canvas", :style => "width:600px; height:500px"}
+%fieldset{:style => 'width:700px;'}
+  %legend Where's the Tworgy?
+  %p
+    %form{:onsubmit => 'return false;'}
+      %label Enter the address:
+      %input#inputAddress{:type => 'text', :value => '', :size => 60}
+      %input#findAddress{:type => 'submit', :value => 'Mark it!'}
+  
+  %div{:id => "map_canvas", :style => "width:auto; height:400px; margin:20px 0px;"}
+  %input#clearMarker{:type => 'submit', :value => 'Clear Marker'}
 %p
   %b Marker Status
   %span#markerStatus

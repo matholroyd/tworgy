@@ -1,4 +1,5 @@
 config/database.yml
+config/initializers/apis.rb
 log/*.log
 tmp/*
 tmp/**/*
