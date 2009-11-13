@@ -106,25 +106,41 @@
        $('#findAddress').click(function() {
           findAddress();
        });
+       
+       var tabs = $("#tabs").tabs({ selected: 0 });
+       
      });   
+   
+     
     
-%fieldset{:style => 'width:700px;'}
-  %legend Where's the Tworgy?
+#columns
+  %fieldset#createTworgy
+    %h2 Create a Tworgy
+    - if @user
+      You have successfully signed in!
+    - else
+      = link_to 'Sign in with Twitter', connect_tworgies_path
+    / %form{:onsubmit => 'return false;'}
+    / %input#findAddress{:type => 'submit', :value => 'Authenticate on Twitter...'}
+    / %p
+    / %input#inputAddress{:type => 'text', :value => '', :size => 60}
+    / %input#findAddress{:type => 'submit', :value => 'Find'}
+    / %input#clearMarker{:type => 'submit', :value => 'Clear Marker'}
+    / %input#clearMarker{:type => 'submit', :value => 'Clear Marker'}
+  %fieldset#map
+    %p
+      %form{:onsubmit => 'return false;'}
+        %label Find a location:
+        %input#inputAddress{:type => 'text', :value => '', :size => 60}
+        %input#findAddress{:type => 'submit', :value => 'Find'}
+
+    %div{:id => "map_canvas", :style => "width:auto; height:400px; margin:20px 0px;"}
   %p
-    %form{:onsubmit => 'return false;'}
-      %label Enter the address:
-      %input#inputAddress{:type => 'text', :value => '', :size => 60}
-      %input#findAddress{:type => 'submit', :value => 'Mark it!'}
-  
-  %div{:id => "map_canvas", :style => "width:auto; height:400px; margin:20px 0px;"}
-  %input#clearMarker{:type => 'submit', :value => 'Clear Marker'}
-%p
-  %b Marker Status
-  %span#markerStatus
-%p 
-  %b Marker Position
-  %span#markerPosition
-%p
-  %b Marker Address
-  %span#markerAddress
-  
+    %b Marker Status
+    %span#markerStatus
+  %p 
+    %b Marker Position
+    %span#markerPosition
+  %p
+    %b Marker Address
+    %span#markerAddress

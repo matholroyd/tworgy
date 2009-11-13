@@ -67,5 +67,20 @@ Learning Goals
 * Use OAuth to enable a user to create a twitter list on their accounts
 * Associate twitter list with a place/icon on google map
 * Ask if want to tweet the newly created association (locations <-> twitter list) 
+  
+User goals & workflow
+---------------------
 
+* Find a tworgy 
+  * Display map with overlay of tworgies
+* Add a tworgy
+  * Associate location with existing list
+    * Display map with overlay of tworgies
+    * 
+  * Create a list + associate with location
+    * Display map with overlay of tworgies
+
+
+
+  
   
