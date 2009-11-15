@@ -116,17 +116,13 @@
 #columns
   %fieldset#createTworgy
     %h2 Create a Tworgy
-    - if @user
+    - if @authorized
       You have successfully signed in!
+      %ul
+      - @client.sent_messages.each do |tweet|
+        %li= tweet['text']
     - else
       = link_to 'Sign in with Twitter', connect_tworgies_path
-    / %form{:onsubmit => 'return false;'}
-    / %input#findAddress{:type => 'submit', :value => 'Authenticate on Twitter...'}
-    / %p
-    / %input#inputAddress{:type => 'text', :value => '', :size => 60}
-    / %input#findAddress{:type => 'submit', :value => 'Find'}
-    / %input#clearMarker{:type => 'submit', :value => 'Clear Marker'}
-    / %input#clearMarker{:type => 'submit', :value => 'Clear Marker'}
   %fieldset#map
     %p
       %form{:onsubmit => 'return false;'}

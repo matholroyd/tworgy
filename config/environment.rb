@@ -16,6 +16,7 @@ Rails::Initializer.run do |config|
   config.gem 'mbleigh-acts-as-taggable-on', :lib => 'acts-as-taggable-on', :source => 'http://gems.github.com'
   config.gem 'machinist'
   config.gem 'twitter_oauth'
+  # config.gem 'twitter'
 
   config.time_zone = 'UTC'
   config.active_record.timestamped_migrations = false
