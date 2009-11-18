@@ -24,19 +24,19 @@
     function findAddress() {
       geocoder.geocode( { 'address': $('#inputAddress').val()}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-          addMarker(results);
+          map.fitBounds(results[0].geometry.bounds);
         } else {
           alert("Geocode was not successful for the following reason: " + status);
         }
       });
     }
      
-    function addMarker(geocoderResponse) {
+    function addMarker(pos) {
       if(marker) {
         clearMarker();
       }
       
-      pos = geocoderResponse[0].geometry.location;
+      // pos = geocoderResponse[0].geometry.location;
       
       marker = new google.maps.Marker({
         position: pos,
@@ -46,7 +46,6 @@
       });
       
       //map.panTo(pos);
-      map.fitBounds(geocoderResponse[0].geometry.bounds);
       
       // Add dragging event listeners.
        google.maps.event.addListener(marker, 'dragstart', function() {
@@ -93,23 +92,23 @@
     }
 
     $(document).ready(function() {
-       setupMap();
+      setupMap();
 
-       $('#addMarker').click(function() {
-         addMarker();
-       });
+      $('#addMarker').click(function() {
+        addMarker(map.getCenter());
+      });
 
-       $('#clearMarker').click(function() {
-         clearMarker();
-       });
-       
-       $('#findAddress').click(function() {
-          findAddress();
-       });
-       
-       var tabs = $("#tabs").tabs({ selected: 0 });
-       
-     });   
+      $('#clearMarker').click(function() {
+        clearMarker();
+      });
+
+      $('#findAddress').click(function() {
+        findAddress();
+      });
+
+      var tabs = $("#tabs").tabs({ selected: 0 });
+
+    });   
    
      
     
@@ -117,9 +116,13 @@
   %fieldset#createTworgy
     %h2 Create a Tworgy
     - if current_user && current_user.twitterer?
+    
+      %h3 Your lists
       %ul
-        - current_user.twitter.lists('matholroyd').lists.each do |list|
-          %li= list.name
+        - current_user.tworgies.each do |tworgy|
+          %li
+            = tworgy.slug
+            #addMarker= submit_tag "Mark location"
     - else
       - semantic_form_for UserSession.new, :url => user_session_path do |f|
         = oauth_login_button :value => "Login with Twitter"
