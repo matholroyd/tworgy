@@ -1,5 +1,6 @@
 %h1 Listing users
 
-= render :partial => 'user', :collection => current_objects
+%table
+  = render :partial => 'user', :collection => current_objects
 
 = link_to 'New user', new_object_path 

@@ -14,7 +14,7 @@
       }
 
       var myOptions = {
-        zoom: 13,
+        zoom: 5,
         center: latlng,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
@@ -116,13 +116,13 @@
 #columns
   %fieldset#createTworgy
     %h2 Create a Tworgy
-    - if @authorized
-      You have successfully signed in!
+    - if current_user && current_user.twitterer?
       %ul
-      - @client.sent_messages.each do |tweet|
-        %li= tweet['text']
+        - current_user.twitter.lists('matholroyd').lists.each do |list|
+          %li= list.name
     - else
-      = link_to 'Sign in with Twitter', connect_tworgies_path
+      - semantic_form_for UserSession.new, :url => user_session_path do |f|
+        = oauth_login_button :value => "Login with Twitter"
   %fieldset#map
     %p
       %form{:onsubmit => 'return false;'}

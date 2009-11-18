@@ -15,8 +15,11 @@ Rails::Initializer.run do |config|
   config.gem 'formtastic'
   config.gem 'mbleigh-acts-as-taggable-on', :lib => 'acts-as-taggable-on', :source => 'http://gems.github.com'
   config.gem 'machinist'
-  config.gem 'twitter_oauth'
-  # config.gem 'twitter'
+  config.gem 'twitter'
+  config.gem "oauth"
+  
+  # Gem not up-to-date, therefore using plugin
+  # config.gem "authlogic-oauth", :lib => "authlogic_oauth"  
 
   config.time_zone = 'UTC'
   config.active_record.timestamped_migrations = false

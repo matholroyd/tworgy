@@ -4,7 +4,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../config/environment')
 require File.expand_path(File.dirname(__FILE__) + '/blueprints')
 require 'spec/autorun'
 require 'spec/rails'
-require 'authlogic/testing/test_unit_helpers'
+# require 'authlogic/testing/test_unit_helpers'
 
 Spec::Runner.configure do |config|
   config.use_transactional_fixtures = true

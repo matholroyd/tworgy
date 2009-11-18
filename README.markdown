@@ -63,10 +63,12 @@ Learning Goals
 * Add icon to a google map
 * Get the location of the icon dragged onto the map 
 * Display a bunch of locations as icons on a google map
+* Allow users to login using Twitter + OAuth
 
 * Use OAuth to enable a user to create a twitter list on their accounts
 * Associate twitter list with a place/icon on google map
 * Ask if want to tweet the newly created association (locations <-> twitter list) 
+* Allow a user to add themselves to a twitter list (as follower and user followed)
   
 User goals & workflow
 ---------------------
@@ -76,9 +78,12 @@ User goals & workflow
 * Add a tworgy
   * Associate location with existing list
     * Display map with overlay of tworgies
-    * 
+    * Find own lists
+    * Click a list to associate with a location
+    * Add a marker to screen
   * Create a list + associate with location
     * Display map with overlay of tworgies
+    * 
 
 
 
