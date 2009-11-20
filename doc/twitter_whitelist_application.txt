@@ -1,0 +1,25 @@
+My project is to allow users to associate their twitter lists with physical locations, thus enabling lists to be displayed on a map, e.g. Google Maps.
+
+Once a user has associated a list with a location, other people can then find twitter lists by looking on a map, and thus add themselves and/or follow the list easily.
+
+Functionality can be summarized as:
+- User authorizes app with read/write access 
+- User creates or finds a twitter list of theirs they would like to associate with a location
+- User uses google maps to associate location with twitter list
+- User2 uses map to find existing twitter lists associated with locations
+- User2 follows + add themselves to twitter lists they want 
+
+Thus methods used would be:
+- GET/POST lists  
+- GET/POST lists members
+- GET/POST lists subscribers
+- And oauth methods
+- GET account/verify_credentials 
+
+Expected frequency of use:
+While developing I might be hitting ~1000 hits/hour.
+In production, there is a bunch of stuff I plan to cache, such as user lists names.  The purpose would be to only access the API when a user edits a list + adds them self as a member/follower, meaning that I won't have to hit the API when users are looking at the map with icons representing twitter lists.  
+
+Therefore, as a rough calculation, average user triggers ~10 api calls.  Therefore, depending on the popularity of the website, that will scale up.  Considering I intend for this to be useful for things like conferences, there maybe 500+ people triggering 10 api calls each, over 8 hour period... 500 x 10 / 8 = 625 hits/hour, for one conference.
+
+At this point in development, I'm not sure what the average number of api calls are made on a per user level. 

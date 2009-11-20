@@ -6,3 +6,8 @@ body.tworgies_index #columns #createTworgy {
   body.tworgies_index #columns #createTworgy h2 {
     font-size: 1em;
     font-family: 'tahoma'; }
+body.tworgies_index #columns .clickable {
+  color: blue;
+  text-decoration: underline; }
+body.tworgies_index #columns #finishingOffAddingMarker {
+  display: none; }

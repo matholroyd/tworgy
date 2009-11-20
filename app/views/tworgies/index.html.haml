@@ -6,6 +6,7 @@
     var geocoder = new google.maps.Geocoder();
     var map;
     var marker;
+    var dialogSetMarker;
   
     function setupMap() {
       var latlng = new google.maps.LatLng(-34.397, 150.644);
@@ -31,12 +32,10 @@
       });
     }
      
-    function addMarker(pos) {
+    function addMarker(tworgy_id, pos) {
       if(marker) {
         clearMarker();
       }
-      
-      // pos = geocoderResponse[0].geometry.location;
       
       marker = new google.maps.Marker({
         position: pos,
@@ -44,8 +43,6 @@
         title:"Hello World!",
         draggable:true
       });
-      
-      //map.panTo(pos);
       
       // Add dragging event listeners.
        google.maps.event.addListener(marker, 'dragstart', function() {
@@ -93,9 +90,27 @@
 
     $(document).ready(function() {
       setupMap();
-
-      $('#addMarker').click(function() {
-        addMarker(map.getCenter());
+      
+      dialogSetMarker = $('#dialogSetMarker').dialog({
+        autoOpen:false,
+        modal:true,
+        buttons: { 
+          "Cancel": function() { $(this).dialog("close"); },
+          "Create Tworgy":function() { $(this).dialog("close"); }
+        }
+      });
+      
+      
+      $('.addMarker').click(function() {
+        $('#finishingOffAddingMarker').show();
+        var tworgy_id = this.attributes['ref'].value;
+        addMarker(tworgy_id, map.getCenter());
+        dialogSetMarker.dialog('open');
+        //$('#dialogSetMarker').dialog.open();
+      });
+      
+      $('#finishedAddingMarker').click(function() {
+        
       });
 
       $('#clearMarker').click(function() {
@@ -107,7 +122,6 @@
       });
 
       var tabs = $("#tabs").tabs({ selected: 0 });
-
     });   
    
      
@@ -122,7 +136,9 @@
         - current_user.tworgies.each do |tworgy|
           %li
             = tworgy.slug
-            #addMarker= submit_tag "Mark location"
+            %span.clickable{:class => 'addMarker', :ref => tworgy.id}= "Mark location"
+      #finishingOffAddingMarker
+        %span#finishedAddingMarker.clickable Finished adding marker
     - else
       - semantic_form_for UserSession.new, :url => user_session_path do |f|
         = oauth_login_button :value => "Login with Twitter"
@@ -143,3 +159,8 @@
   %p
     %b Marker Address
     %span#markerAddress
+
+
+#dialogSetMarker{:title => 'hello'}
+  %p fdsfads
+  
