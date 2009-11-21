@@ -86,6 +86,23 @@ User goals & workflow
     * 
 
 
+WorkFlow
+1) 
+  a Login
+  b Mark Location
+  c Bring up form for name (filled out if choose existing tworgy)
+2) 
+  a Login
+  b Create list new list if need be
+  c Toggle whether list is associated with a map location
+  d If no, grey out map, with message that need to pick map location
+  d If yes, ungrey map, show pin, allow user to update position (new position automatically saved)
+
+
+
+  
+
+
 
   
   

@@ -89,8 +89,12 @@
     }
 
     $(document).ready(function() {
-      setupMap();
+      $('#smallAddList a').attr('href', '#');
+      $('#smallAddList a').click(function() {
+        $('fieldset#fieldsAddList').toggle();
+      });
       
+      setupMap();
      
       
       $('.addMarker').click(function() {
@@ -132,15 +136,28 @@
   %fieldset#createTworgy
     %h2 Create a Tworgy
     - if current_user && current_user.twitterer?
-    
       %h3 Your lists
       %ul
         - current_user.tworgies.each do |tworgy|
           %li
-            = tworgy.slug
-            %span.clickable{:class => 'addMarker', :ref => tworgy.id}= "Mark location"
-      #finishingOffAddingMarker
-        %span#finishedAddingMarker.clickable Finished adding marker
+            %span.clickable{:class => 'addMarker', :ref => tworgy.id}= tworgy.slug
+            %input{:type => 'checkbox'}
+      #smallAddList
+        %a{:href => 'add_list'}
+          %span Add list
+      %fieldset#fieldsAddList{:style => "top: 24.5px; left: 814.267px; display: block; display:none;"}
+        %form{:id => "createList", :action => "https://twitter.com/sessions", :method => "post"}
+          %p
+            %label List Name
+            %input{:id => "tworgy_name", :type => "text", :tabindex => "4", :title => "tworgy_name", :value => "", :name => "tworgy[name]"}
+          %p
+            %input{:id => 'add_yourself', :type => 'checkbox', :name => 'tworgy[add_self]', :value => '1'}
+            %label{:for => 'add_yourself'} Add yourself
+          %p
+            %input{:id => 'follow_list', :type => 'checkbox', :name => 'tworgy[follow_list]', :value => '1'}
+            %label{:for => 'follow_list'} Follow list
+          %p
+            = submit_tag 'Create list'
     - else
       - semantic_form_for UserSession.new, :url => user_session_path do |f|
         = oauth_login_button :value => "Login with Twitter"
@@ -164,10 +181,10 @@
 
 
 #dialogSetMarker{:title => "Mark location of "}
-  - semantic_form_for Tworgy.new do |f|
-    = f.inputs :slug
-    - f.buttons do
-      = f.commit_button
-  %p fdsafasdf
+  %p
+    %label Name
+    %input{:type => 'text'}
+  %p
+    %input{:type => 'submit', :value => 'create tworgy'}
   
   
