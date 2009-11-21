@@ -11,3 +11,5 @@ body.tworgies_index #columns .clickable {
   text-decoration: underline; }
 body.tworgies_index #columns #finishingOffAddingMarker {
   display: none; }
+body.tworgies_index .ui-dialog input[type=text] {
+  width: 50px; }

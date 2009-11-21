@@ -91,22 +91,14 @@
     $(document).ready(function() {
       setupMap();
       
-      dialogSetMarker = $('#dialogSetMarker').dialog({
-        autoOpen:false,
-        modal:true,
-        buttons: { 
-          "Cancel": function() { $(this).dialog("close"); },
-          "Create Tworgy":function() { $(this).dialog("close"); }
-        }
-      });
-      
+     
       
       $('.addMarker').click(function() {
         $('#finishingOffAddingMarker').show();
         var tworgy_id = this.attributes['ref'].value;
         addMarker(tworgy_id, map.getCenter());
-        dialogSetMarker.dialog('open');
-        //$('#dialogSetMarker').dialog.open();
+        //dialogSetMarker.dialog('open');
+        $('#dialogSetMarker').dialog('open');
       });
       
       $('#finishedAddingMarker').click(function() {
@@ -122,6 +114,16 @@
       });
 
       var tabs = $("#tabs").tabs({ selected: 0 });
+      
+      $('#dialogSetMarker').dialog({
+        autoOpen:false,
+        modal:true,
+        buttons: { 
+          "Cancel": function() { $(this).dialog("close"); },
+          "Create Tworgy":function() { $(this).dialog("close"); }
+        }
+      });
+      
     });   
    
      
@@ -161,6 +163,11 @@
     %span#markerAddress
 
 
-#dialogSetMarker{:title => 'hello'}
-  %p fdsfads
+#dialogSetMarker{:title => "Mark location of "}
+  - semantic_form_for Tworgy.new do |f|
+    = f.inputs :slug
+    - f.buttons do
+      = f.commit_button
+  %p fdsafasdf
+  
   
