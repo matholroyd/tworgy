@@ -10,7 +10,7 @@
     #container
       #header
         = render :partial => 'shared/user_bar'
-        %h1= App[:name]
+        %h1= link_to App[:name], root_path
       .site
         #side
           = yield(:side)

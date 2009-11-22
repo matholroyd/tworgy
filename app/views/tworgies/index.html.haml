@@ -131,6 +131,11 @@
 #columns
   %fieldset#createTworgy
     %h2 Create a Tworgy
+    %ul#location_list
+      - 5.times do
+        %li
+          = check_box "tes", "test"
+          %span test
     - if current_user && current_user.twitterer?
     
       %h3 Your lists
@@ -151,7 +156,7 @@
         %input#inputAddress{:type => 'text', :value => '', :size => 60}
         %input#findAddress{:type => 'submit', :value => 'Find'}
 
-    %div{:id => "map_canvas", :style => "width:auto; height:400px; margin:20px 0px;"}
+    %div{:id => "map_canvas", :style => "width: auto; height: 400px; margin: 20px 0px;"}
   %p
     %b Marker Status
     %span#markerStatus
@@ -169,5 +174,13 @@
     - f.buttons do
       = f.commit_button
   %p fdsafasdf
-  
+
+:javascript
+  $("ul#location_list li span").click(function() {
+    this.parentNode.className = (this.parentNode.className=="active" ? "" : "active");
+  });
+  $("ul#location_list li input").click(function() {
+    this.parentNode.className = (this.parentNode.className=="displaying" ? "" : "displaying");
+  });
+
   
