@@ -77,13 +77,14 @@ body.tworgies_index .ui-dialog input[type=text] {
 
 #columns fieldset {
 	background: #eee;
+	border: 1px solid #999;
 }
 	fieldset#map {
 		background: #227FFF;
+		background: #A2C8FF;
 		-moz-border-radius: 10px;
 		-webkit-border-radius: 10px;
 		border-radius: 10px;
-		border: 1px solid #063279;
 	}
 	
 ul#location_list {
