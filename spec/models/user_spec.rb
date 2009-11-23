@@ -1,8 +1,12 @@
 require 'spec_helper'
+require 'ostruct'
 
 describe User do
   def mock_twitter
-    @mock_twitter ||= mock('twitter', {:verify_credentials => mock_verify_credentials})
+    @mock_twitter ||= mock('twitter', {
+      :verify_credentials => mock_verify_credentials,
+      :lists => OpenStruct.new(:lists => [1,3,4])
+    })
   end
   
   def mock_verify_credentials
@@ -17,18 +21,23 @@ describe User do
     User.make.should_not be_twitterer
   end
   
-  describe 'with twitter credentials' do
-    before :each do
-      @user = User.make_unsaved(:oauth_token => 'token', :oauth_secret => 'secret')
-      @user.stub!(:twitter).and_return(mock_twitter)
+  describe 'newly created' do
+  
+    describe 'with twitter credentials' do
+      before :each do
+        @user = User.make_unsaved(:oauth_token => 'token', :oauth_secret => 'secret')
+        @user.stub!(:twitter).and_return(mock_twitter)
+        @user.save
+      end
+    
+      it 'should be a twittter' do
+        @user.should be_twitterer
+      end
+    
+      it "should populate the user's tworgy list with their twitter list" do
+        @user.tworgies.length.should == 3
+      end
     end
     
-    it 'should be a twittter' do
-      @user.should be_twitterer
-    end
-    
-    it 'should populate tworgy list' do
-      # @user.should_receive(:twitter).and_return(mock_twitter)
-    end
   end
 end

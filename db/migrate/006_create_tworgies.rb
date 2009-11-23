@@ -4,8 +4,8 @@ class CreateTworgies < ActiveRecord::Migration
       t.integer :user_id
       t.integer :twitter_list_id
       t.string :slug
-      t.integer :followers_count
-      t.integer :following_count
+      t.integer :members_count
+      t.integer :subscribers_count
       t.string :uri
       t.decimal :latitude
       t.string :longitude
