@@ -2,7 +2,11 @@ require 'spec_helper'
 
 describe User do
   def mock_twitter
-    Twitter::Base.stub!(:lists)
+    @mock_twitter ||= mock('twitter', {:verify_credentials => mock_verify_credentials})
+  end
+  
+  def mock_verify_credentials
+    @mock_verify_credentials ||= mock('verify_credentials', {:screen_name => 'bob'})
   end
   
   it "should be valid" do
@@ -15,7 +19,8 @@ describe User do
   
   describe 'with twitter credentials' do
     before :each do
-      @user = User.make(:oauth_token => 'token', :oauth_secret => 'secret')
+      @user = User.make_unsaved(:oauth_token => 'token', :oauth_secret => 'secret')
+      @user.stub!(:twitter).and_return(mock_twitter)
     end
     
     it 'should be a twittter' do
@@ -23,7 +28,7 @@ describe User do
     end
     
     it 'should populate tworgy list' do
-      @user.should_receive(:twitter).and_return(mock_twitter)
+      # @user.should_receive(:twitter).and_return(mock_twitter)
     end
   end
 end

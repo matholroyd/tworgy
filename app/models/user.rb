@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
   
   def find_screen_name
     if twitterer?
-      self.twitter_username = twitterer.verify_credentials.screen_name
+      self.twitter_username = twitter.verify_credentials.screen_name
     end
   end
 end
