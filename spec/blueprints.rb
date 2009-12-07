@@ -16,3 +16,8 @@ User.blueprint do
   password_confirmation { password }
 end
 
+Tworgy.blueprint do
+  user
+  name
+  slug { Sham.name }
+end

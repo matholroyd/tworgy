@@ -17,19 +17,16 @@ class User < ActiveRecord::Base
   end
   
   def populate_tworgies
-    if twitterer?
-      twitter.lists.lists.length.times { tworgies.create }
-    end
     
-  #     if twitterer?
-  #       twitter.lists.lists.each do |list|
-  #         members_count = twitter.list_members(twitter_username, list.slug).users.length
-  #         subscribers_count = twitter.list_subscribers(twitter_username, list.slug).users.length
-  #         
-  #         tworgies.create :slug => list.slug, :twitter_list_id => list.id, :members_count => members_count,
-  #           :subscribers_count => subscribers_count, :uri => list.uri
-  #       end
-  #     end
+    if twitterer?
+      twitter.lists.lists.each do |list|
+        members_count = twitter.list_members(twitter_username, list.slug).users.length
+        subscribers_count = twitter.list_subscribers(twitter_username, list.slug).users.length
+        
+        tworgies.create :slug => list.slug, :twitter_list_id => list.id, :members_count => members_count,
+          :subscribers_count => subscribers_count, :uri => list.uri
+      end
+    end
   end
   
   protected 

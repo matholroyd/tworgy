@@ -19,7 +19,7 @@ Rails::Initializer.run do |config|
   config.gem "oauth"
   
   # Gem not up-to-date, therefore using plugin
-  # config.gem "authlogic-oauth", :lib => "authlogic_oauth"  
+   # config.gem "authlogic-oauth", :lib => "authlogic_oauth"  
 
   config.time_zone = 'UTC'
   config.active_record.timestamped_migrations = false

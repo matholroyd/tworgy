@@ -3,6 +3,7 @@ class CreateTworgies < ActiveRecord::Migration
     create_table :tworgies do |t|
       t.integer :user_id
       t.integer :twitter_list_id
+      t.string :name
       t.string :slug
       t.integer :members_count
       t.integer :subscribers_count
