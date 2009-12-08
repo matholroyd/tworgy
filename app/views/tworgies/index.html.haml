@@ -137,11 +137,11 @@
     %h2 Create a Tworgy
     - if current_user && current_user.twitterer?
       %h3 Your lists
-      %ul
+      %ul#location_list
         - current_user.tworgies.each do |tworgy|
           %li
-            %span.clickable{:class => 'addMarker', :ref => tworgy.id}= tworgy.slug
-            %input{:type => 'checkbox'}
+            = check_box tworgy.id, tworgy.name
+            %span{:ref => tworgy.id}= tworgy.slug
       #smallAddList
         %a{:href => 'add_list'}
           %span Add list
@@ -187,4 +187,11 @@
   %p
     %input{:type => 'submit', :value => 'create tworgy'}
   
-  
+:javascript
+  $("ul#location_list li span").click(function() {
+    this.parentNode.className = (this.parentNode.className=="active" ? "" : "active");
+  });
+  $("ul#location_list li input").click(function() {
+    this.parentNode.className = (this.parentNode.className=="displaying" ? "" : "displaying");
+  });
+

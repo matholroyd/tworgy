@@ -3,7 +3,7 @@ body.tworgies_index
   #columns
     #createTworgy
       :float left
-      :width 200px
+      :width 300px
       h2
         :font
           :size 1em
@@ -20,3 +20,90 @@ body.tworgies_index
   .ui-dialog
     input[type=text]
       :width 50px
+      
+      
+#user_bar 
+  :padding 8px 12px
+  :position absolute
+  :top 15px
+  :right 10%
+  :-moz-border-radius-topleft 1em
+  :-moz-border-radius-bottomright 1em
+  :-webkit-border-top-left-radius 1em
+  :-webkit-border-bottom-right-radius 1em
+  :border-radius 10px
+  :moz-box-shadow 2px 1px 8px #000
+  :-webkit-box-shadow 2px 1px 8px #000
+  :background #227FFF
+
+
+  a 
+    :text-decoration none
+    :color #fff
+    :text-transform uppercase
+    :font-size .8em
+    &:hover 
+      :text-decoration underline
+
+#header 
+  :padding 20px 0
+  :background #333 url(/images/layout1/header_bg.gif) repeat-x
+  :border-bottom 3px solid #222
+
+#container 
+  .site 
+    :margin 0 auto
+    :width 900px
+
+#columns 
+  fieldset 
+    :background #eee
+    :border 1px solid #999
+
+fieldset#map 
+  :background #227FFF
+  :background #A2C8FF
+  :-moz-border-radius 10px
+  :-webkit-border-radius 10px
+  :border-radius 10px
+
+ul#location_list 
+  :margin 0 -10px 15px -10px
+  :padding 0
+  :list-style none
+
+ul#location_list 
+  li 
+    :margin 0
+    :padding 7px 10px
+    :cursor pointer
+
+
+  li:nth(1) 
+    :background #dedede
+
+  li
+    &:hover 
+      :background yellow
+
+  li.active 
+    :margin-right -18px
+    :background #227FFF
+    :font-weight bold
+    
+  li.displaying 
+    :margin-right -18px
+    :font-weight bold      
+    :background #9AC2FF
+
+  li 
+    input 
+      :margin-right 10px
+
+  li 
+    span 
+      :padding 0 5px
+  li.active:after 
+    :content ">>"
+
+
