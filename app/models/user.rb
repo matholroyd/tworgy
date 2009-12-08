@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   has_many :tworgies
   
   before_create :find_screen_name
-  after_create :repopulate_tworigies
+  after_create :repopulate_tworgies
   
   def twitterer?
     !(oauth_token.blank? || oauth_secret.blank?)
@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
     @twitter ||= Twitter::Base.new(oauth)
   end
     
-  def repopulate_tworigies 
+  def repopulate_tworgies 
     if twitterer?
       updated_tworgies = []
       

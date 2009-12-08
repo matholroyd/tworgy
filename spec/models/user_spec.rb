@@ -51,14 +51,14 @@ describe User do
           :lists => {:lists => [{:slug => 'listA', :id => 1, :name =>'listA'}]}
         }))
         
-        @user.repopulate_tworigies
+        @user.repopulate_tworgies
         @user.reload
         @user.tworgies.length.should == 1
       end      
       
       it 'should not overwrite an existing one if the list id matches' do
         tworgy = @user.tworgies.first
-        @user.repopulate_tworigies
+        @user.repopulate_tworgies
         @user.reload
         @user.tworgies.first.should == tworgy
       end
