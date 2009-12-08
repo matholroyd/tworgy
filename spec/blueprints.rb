@@ -21,3 +21,15 @@ Tworgy.blueprint do
   name
   slug { Sham.name }
 end
+
+def mock_twitter(options = {})
+  {
+    :verify_credentials => {:screen_name => 'bob'},
+    :lists => {:lists => [
+      {:slug => 'listA', :id => 1, :name =>'listA'},
+      {:slug => 'listB', :id => 2, :name =>'listB'}
+    ]},
+    :list_members => {:users => {:length => 10}},
+    :list_subscribers => {:users => {:length => 10}}
+  }.merge(options).ostructify
+end
