@@ -1,27 +1,93 @@
+!normal = #ace600
+!hover = #e3e600 
+!enabled = #e39600
+!active = #e33800
+
 body.tworgies_index
   
-  #columns
-    #createTworgy
-      :float left
-      :width 300px
-      h2
-        :font
-          :size 1em
-          :family 'tahoma'
-    #map
+  #createTworgy
+    :float left
+    :width 300px
+    :margin 0px 20px 0px 0px
+    h2
+      :font
+        :size 1em
+        :family 'tahoma'
+  #map
+  
+  .clickable
+    :color blue
+    :text-decoration underline
+  .addMarker
+  #finishingOffAddingMarker
+    :display none
     
-    .clickable
-      :color blue
-      :text-decoration underline
-    .addMarker
-    #finishingOffAddingMarker
-      :display none
-      
   .ui-dialog
     input[type=text]
       :width 50px
       
       
+
+  fieldset 
+    :background = !normal
+    :border 1px solid #999
+
+  fieldset#map 
+    :background = !enabled
+    :-moz-border-radius 10px
+    :-webkit-border-radius 10px
+    :border-radius 10px
+
+  #map_canvas
+    :border = 3px solid !active
+    :-moz-border-radius 3px
+    :-webkit-border-radius 3px
+    :border-radius 3px
+
+  ul#location_list 
+    :margin 0 -10px 15px -10px
+    :padding 0
+    :list-style none
+    li 
+      :margin 0
+      :padding 7px 10px
+    li:nth(1) 
+      :background #dedede
+
+    li
+      &:hover 
+        :background = !hover
+    
+    li.enabled 
+      :margin-right -36px
+      :font-weight bold      
+      :background = !enabled
+
+    li.active 
+      :background = !active
+      :font-weight bold
+
+    li 
+      input 
+        :margin-right 10px
+        :cursor pointer
+    li 
+      span 
+        :cursor pointer
+        :padding 0 5px
+    li.active:after 
+//      :content ">>"
+
+#header 
+  :padding 20px 0
+  :background #333 url(/images/layout1/header_bg.gif) repeat-x
+  :border-bottom 3px solid #222
+
+#container 
+  .site 
+    :margin 0 auto
+    :width 900px
+
 #user_bar 
   :padding 8px 12px
   :position absolute
@@ -44,66 +110,3 @@ body.tworgies_index
     :font-size .8em
     &:hover 
       :text-decoration underline
-
-#header 
-  :padding 20px 0
-  :background #333 url(/images/layout1/header_bg.gif) repeat-x
-  :border-bottom 3px solid #222
-
-#container 
-  .site 
-    :margin 0 auto
-    :width 900px
-
-#columns 
-  fieldset 
-    :background #eee
-    :border 1px solid #999
-
-fieldset#map 
-  :background #227FFF
-  :background #A2C8FF
-  :-moz-border-radius 10px
-  :-webkit-border-radius 10px
-  :border-radius 10px
-
-ul#location_list 
-  :margin 0 -10px 15px -10px
-  :padding 0
-  :list-style none
-
-ul#location_list 
-  li 
-    :margin 0
-    :padding 7px 10px
-    :cursor pointer
-
-
-  li:nth(1) 
-    :background #dedede
-
-  li
-    &:hover 
-      :background yellow
-    
-  li.enabled 
-    :margin-right -18px
-    :font-weight bold      
-    :background #9AC2FF
-
-  li.active 
-    :margin-right -18px
-    :background #227FFF
-    :font-weight bold
-
-  li 
-    input 
-      :margin-right 10px
-
-  li 
-    span 
-      :padding 0 5px
-  li.active:after 
-    :content ">>"
-
-

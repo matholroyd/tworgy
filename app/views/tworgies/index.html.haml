@@ -168,7 +168,7 @@
         %input#inputAddress{:type => 'text', :value => '', :size => 60}
         %input#findAddress{:type => 'submit', :value => 'Find'}
 
-    %div{:id => "map_canvas", :style => "width:auto; height:400px; margin:20px 0px;"}
+    #map_canvas{:style => "width:auto; height:400px; margin:20px 0px;"}
   %p
     %b Marker Status
     %span#markerStatus
@@ -188,15 +188,17 @@
     %input{:type => 'submit', :value => 'create tworgy'}
   
 :javascript
+  function toggleCheckBox(li) {
+    li.toggleClass("enabled", this.checked);    
+    var input = li.children('input')
+    input.attr('checked', li.hasClass('enabled'));
+  }
+  
   $("ul#location_list li span").click(function() {
     $("ul#location_list li").removeClass('active');
     $(this).parent().addClass('active');
   });
   $("ul#location_list li input").click(function() {
-    if(this.value == true) {
-      $(this).parent().addClass("enabled");    
-    } else {
-      $(this).parent().removeClass("enabled");    
-    }
+    toggleCheckBox($(this).parent());
   });
 

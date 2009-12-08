@@ -1,16 +1,63 @@
-body.tworgies_index #columns #createTworgy {
+body.tworgies_index #createTworgy {
   float: left;
-  width: 300px; }
-  body.tworgies_index #columns #createTworgy h2 {
+  width: 300px;
+  margin: 0px 20px 0px 0px; }
+  body.tworgies_index #createTworgy h2 {
     font-size: 1em;
     font-family: 'tahoma'; }
-body.tworgies_index #columns .clickable {
+body.tworgies_index .clickable {
   color: blue;
   text-decoration: underline; }
-body.tworgies_index #columns #finishingOffAddingMarker {
+body.tworgies_index #finishingOffAddingMarker {
   display: none; }
 body.tworgies_index .ui-dialog input[type=text] {
   width: 50px; }
+body.tworgies_index fieldset {
+  background: #ace600;
+  border: 1px solid #999; }
+body.tworgies_index fieldset#map {
+  background: #e39600;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px; }
+body.tworgies_index #map_canvas {
+  border: 3px solid #e33800;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; }
+body.tworgies_index ul#location_list {
+  margin: 0 -10px 15px -10px;
+  padding: 0;
+  list-style: none; }
+  body.tworgies_index ul#location_list li {
+    margin: 0;
+    padding: 7px 10px; }
+  body.tworgies_index ul#location_list li:nth(1) {
+    background: #dedede; }
+  body.tworgies_index ul#location_list li:hover {
+    background: #e3e600; }
+  body.tworgies_index ul#location_list li.enabled {
+    margin-right: -36px;
+    font-weight: bold;
+    background: #e39600; }
+  body.tworgies_index ul#location_list li.active {
+    background: #e33800;
+    font-weight: bold; }
+  body.tworgies_index ul#location_list li input {
+    margin-right: 10px;
+    cursor: pointer; }
+  body.tworgies_index ul#location_list li span {
+    cursor: pointer;
+    padding: 0 5px; }
+
+#header {
+  padding: 20px 0;
+  background: #333 url(/images/layout1/header_bg.gif) repeat-x;
+  border-bottom: 3px solid #222; }
+
+#container .site {
+  margin: 0 auto;
+  width: 900px; }
 
 #user_bar {
   padding: 8px 12px;
@@ -32,51 +79,3 @@ body.tworgies_index .ui-dialog input[type=text] {
     font-size: .8em; }
     #user_bar a:hover {
       text-decoration: underline; }
-
-#header {
-  padding: 20px 0;
-  background: #333 url(/images/layout1/header_bg.gif) repeat-x;
-  border-bottom: 3px solid #222; }
-
-#container .site {
-  margin: 0 auto;
-  width: 900px; }
-
-#columns fieldset {
-  background: #eee;
-  border: 1px solid #999; }
-
-fieldset#map {
-  background: #227FFF;
-  background: #A2C8FF;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px; }
-
-ul#location_list {
-  margin: 0 -10px 15px -10px;
-  padding: 0;
-  list-style: none; }
-
-ul#location_list li {
-  margin: 0;
-  padding: 7px 10px;
-  cursor: pointer; }
-ul#location_list li:nth(1) {
-  background: #dedede; }
-ul#location_list li:hover {
-  background: yellow; }
-ul#location_list li.enabled {
-  margin-right: -18px;
-  font-weight: bold;
-  background: #9AC2FF; }
-ul#location_list li.active {
-  margin-right: -18px;
-  background: #227FFF;
-  font-weight: bold; }
-ul#location_list li input {
-  margin-right: 10px; }
-ul#location_list li span {
-  padding: 0 5px; }
-ul#location_list li.active:after {
-  content: ">>"; }
