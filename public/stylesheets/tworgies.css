@@ -66,14 +66,14 @@ ul#location_list li:nth(1) {
   background: #dedede; }
 ul#location_list li:hover {
   background: yellow; }
+ul#location_list li.enabled {
+  margin-right: -18px;
+  font-weight: bold;
+  background: #9AC2FF; }
 ul#location_list li.active {
   margin-right: -18px;
   background: #227FFF;
   font-weight: bold; }
-ul#location_list li.displaying {
-  margin-right: -18px;
-  font-weight: bold;
-  background: #9AC2FF; }
 ul#location_list li input {
   margin-right: 10px; }
 ul#location_list li span {

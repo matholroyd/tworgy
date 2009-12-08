@@ -189,9 +189,14 @@
   
 :javascript
   $("ul#location_list li span").click(function() {
-    this.parentNode.className = (this.parentNode.className=="active" ? "" : "active");
+    $("ul#location_list li").removeClass('active');
+    $(this).parent().addClass('active');
   });
   $("ul#location_list li input").click(function() {
-    this.parentNode.className = (this.parentNode.className=="displaying" ? "" : "displaying");
+    if(this.value == true) {
+      $(this).parent().addClass("enabled");    
+    } else {
+      $(this).parent().removeClass("enabled");    
+    }
   });
 
