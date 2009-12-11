@@ -1,5 +1,3 @@
 class PostsController < ApplicationController
-  make_resourceful do
-    actions :all
-  end
+  resource_controller
 end

@@ -17,6 +17,7 @@ Rails::Initializer.run do |config|
   config.gem 'machinist'
   config.gem 'twitter'
   config.gem "oauth"
+  config.gem "resource_controller"
   
   # Gem not up-to-date, therefore using plugin
    # config.gem "authlogic-oauth", :lib => "authlogic_oauth"  

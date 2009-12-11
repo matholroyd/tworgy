@@ -1,9 +1,6 @@
 class UsersController < ApplicationController
   skip_before_filter :require_user, :only => [:new, :create]
-
-  make_resourceful do
-    actions :all
-  end
+  resource_controller  
   
   def create
     @user = User.new(params[:user])

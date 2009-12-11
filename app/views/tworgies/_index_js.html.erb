@@ -1,0 +1,145 @@
+<script type='text/javascript'>
+
+var geocoder = new google.maps.Geocoder();
+var map;
+var marker;
+var dialogSetMarker;
+
+function setupMap() {
+  var latlng = new google.maps.LatLng(-34.397, 150.644);
+  if (google.loader.ClientLocation) {
+    latlng = new google.maps.LatLng(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude);
+  }
+
+  var myOptions = {
+    zoom: 5,
+    center: latlng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  map = new google.maps.Map($("#map_canvas:first")[0], myOptions);
+}
+
+function findAddress() {
+  geocoder.geocode( { 'address': $('#inputAddress').val()}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      map.fitBounds(results[0].geometry.bounds);
+    } else {
+      alert("Geocode was not successful for the following reason: " + status);
+    }
+  });
+}
+
+function addMarker(tworgy_id, pos) {
+  if(marker) {
+    clearMarker();
+  }
+
+  marker = new google.maps.Marker({
+    position: pos,
+    map: map, 
+    title:"Hello World!",
+    draggable:true
+  });
+
+  // Add dragging event listeners.
+   google.maps.event.addListener(marker, 'dragstart', function() {
+     updateMarkerAddress('Dragging...');
+   });
+
+   google.maps.event.addListener(marker, 'drag', function() {
+     updateMarkerStatus('Dragging...');
+     updateMarkerPosition(marker.get_position());
+   });
+
+   google.maps.event.addListener(marker, 'dragend', function() {
+     updateMarkerStatus('Drag ended');
+     geocodePosition(marker.get_position());
+   });
+}
+
+function clearMarker() {
+  if(marker) {
+    marker.setMap(null);
+  }
+}
+
+function geocodePosition(pos) {
+  geocoder.geocode({latLng: pos}, function(responses) {
+    if (responses && responses.length > 0) {
+      updateMarkerAddress(responses[0].formatted_address);
+    } else {
+      updateMarkerAddress('Cannot determine address at this location.');
+    }
+  });
+}
+
+function updateMarkerStatus(str) {
+  $('#markerStatus').html(str);
+}
+
+function updateMarkerPosition(latLng) {
+  $('#markerPosition').html([latLng.lat(), latLng.lng()].join(', '));
+}
+
+function updateMarkerAddress(str) {
+  $('#markerAddress').html(str);
+}
+
+$(document).ready(function() {
+  $('#smallAddList a').attr('href', '#');
+  $('#smallAddList a').click(function() {
+    $('fieldset#fieldsAddList').toggle();
+  });
+
+  setupMap();
+
+
+  $('.addMarker').click(function() {
+    $('#finishingOffAddingMarker').show();
+    var tworgy_id = this.attributes['ref'].value;
+    addMarker(tworgy_id, map.getCenter());
+    //dialogSetMarker.dialog('open');
+    $('#dialogSetMarker').dialog('open');
+  });
+
+  $('#finishedAddingMarker').click(function() {
+  
+  });
+
+  $('#clearMarker').click(function() {
+    clearMarker();
+  });
+
+  $('#findAddress').click(function() {
+    findAddress();
+  });
+
+  var tabs = $("#tabs").tabs({ selected: 0 });
+
+  $('#dialogSetMarker').dialog({
+    autoOpen:false,
+    modal:true,
+    buttons: { 
+      "Cancel": function() { $(this).dialog("close"); },
+      "Create Tworgy":function() { $(this).dialog("close"); }
+    }
+  });
+  
+  $("ul#location_list li span").click(function() {
+    $("ul#location_list li").removeClass('active');
+    $(this).parent().addClass('active');
+  });
+  $("ul#location_list li input").click(function() {
+    toggleCheckBox($(this).parent());
+  });
+
+});   
+
+
+function toggleCheckBox(li) {
+  li.toggleClass("enabled", this.checked);    
+  var input = li.children('input')
+  input.attr('checked', li.hasClass('enabled'));
+}
+
+</script>

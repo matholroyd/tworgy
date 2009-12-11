@@ -9,16 +9,20 @@ describe User do
   it 'should not be a twitter' do
     User.make.should_not be_twitterer
   end
+
+  it 'should make a valid twitter' do
+    user = User.make(:oauth_token => 'token', :oauth_secret => 'secret')
+    user.should be_valid
+    user.should be_twitterer
+  end
   
   describe 'with twitter credentials' do
     before :each do
       @user = User.make_unsaved(:oauth_token => 'token', :oauth_secret => 'secret')
-      @user.stub!(:twitter).and_return(mock_twitter({
-        :lists => {:lists => [
-          {:slug => 'listA', :id => 1, :name =>'listA'},
-          {:slug => 'listB', :id => 2, :name =>'listB'}
-        ]}
-      }))
+      User.twitter.lists.lists = [
+            {:slug => 'listA', :id => 1, :name =>'listA'},
+            {:slug => 'listB', :id => 2, :name =>'listB'}
+          ].ostructify
       @user.save
     end
 

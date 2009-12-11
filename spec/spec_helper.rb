@@ -4,7 +4,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../config/environment')
 require File.expand_path(File.dirname(__FILE__) + '/blueprints')
 require 'spec/autorun'
 require 'spec/rails'
-# require 'authlogic/testing/test_unit_helpers'
+require 'authlogic/test_case'
 
 Spec::Runner.configure do |config|
   config.use_transactional_fixtures = true
@@ -13,8 +13,10 @@ Spec::Runner.configure do |config|
 
   config.before(:each) do
     Sham.reset 
-    Authlogic::Session::Base.controller = nil
+    activate_authlogic
   end
+
+  include Authlogic::TestCase
 end
 
 def content_for(name)

@@ -17,9 +17,8 @@ User.blueprint do
 end
 
 Tworgy.blueprint do
-  user
+  user { User.make_twitterer }
   name
-  slug { Sham.name }
 end
 
 def mock_twitter(options = {})
@@ -30,6 +29,11 @@ def mock_twitter(options = {})
       {:slug => 'listB', :id => 2, :name =>'listB'}
     ]},
     :list_members => {:users => {:length => 10}},
-    :list_subscribers => {:users => {:length => 10}}
+    :list_subscribers => {:users => {:length => 10}},
+    :list_create => 'dummy object'
   }.merge(options).ostructify
+end
+
+def User.twitter(oauth = nil)
+  @mock_twitter ||= mock_twitter
 end

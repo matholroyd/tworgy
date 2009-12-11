@@ -55,7 +55,7 @@ body.tworgies_index ul#location_list {
   background: #333 url(/images/layout1/header_bg.gif) repeat-x;
   border-bottom: 3px solid #222; }
 
-#container .site {
+#container {
   margin: 0 auto;
   width: 900px; }
 

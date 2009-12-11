@@ -13,7 +13,11 @@ class User < ActiveRecord::Base
   def twitter
     DBC.require(twitterer?)
 
-    @twitter ||= Twitter::Base.new(oauth)
+    @twitter ||= User.twitter(oauth)
+  end
+  
+  def self.twitter(oauth)
+    Twitter::Base.new(oauth)
   end
     
   def repopulate_tworgies 
@@ -41,10 +45,9 @@ class User < ActiveRecord::Base
     members_count = twitter.list_members(twitter_username, list.slug).users.length
     subscribers_count = twitter.list_subscribers(twitter_username, list.slug).users.length
     
-    tworgy.update_attributes :slug => list.slug, :members_count => members_count,
+    tworgy.update_attributes! :slug => list.slug, :members_count => members_count,
       :subscribers_count => subscribers_count, :uri => list.uri, :name => list.name
 
-    DBC.ensure(tworgy.valid?)
     tworgy
   end
   
