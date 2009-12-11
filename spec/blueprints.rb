@@ -17,7 +17,7 @@ User.blueprint do
 end
 
 Tworgy.blueprint do
-  user { User.make_twitterer }
+  user
   name
 end
 

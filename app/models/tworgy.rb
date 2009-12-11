@@ -1,7 +1,9 @@
 class Tworgy < ActiveRecord::Base
   belongs_to :user
   before_create :create_list_on_twitter
+
   validates_presence_of :name, :user_id
+  validates_uniqueness_of :name, :scope => :user_id
   
   private 
   
@@ -16,8 +18,10 @@ class Tworgy < ActiveRecord::Base
       begin
         list = user.twitter.list_create user.twitter_username, :name => name
         self.slug = list[:slug]
+        self.twitter_list_id = list[:id]
+        self.uri = list[:uri]
       rescue Exception => e 
-        throw e
+        raise
       end
     end
   end
