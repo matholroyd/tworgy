@@ -29,6 +29,17 @@ describe Tworgy do
   it 'should be linked to a user that is twitterer?' do
     Tworgy.make_unsaved(:user => User.make).should have(1).error_on(:user)
   end
+  
+  describe 'temp variable' do
+    [:add_yourself, :follow_list].each do |field|
+      it "#{field} should be available" do
+        @tworgy = @user.tworgies.make
+        @tworgy.send("#{field}=", 3)
+        @tworgy.send(field).should == 3
+      end
+    end
+    
+  end
 
   describe 'twitter interaction' do
     before :each do

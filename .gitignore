@@ -4,3 +4,6 @@ log/*.log
 tmp/*
 tmp/**/*
 db/*.sqlite3
+
+public/stylesheets/tworgies.css
+public/stylesheets/main.css
