@@ -22,6 +22,27 @@ describe TworgiesController do
     
   end
   
+  describe 'GET refresh' do
+    describe 'with twitterer' do
+      before :each do
+        UserSession.create(@user)
+      end
+      
+      it 'should redirect to index' do
+        get :refresh
+        response.should redirect_to(tworgies_path)
+      end
+      
+      it 'should refresh the tworgy list' do
+        @user.tworgies.length.should == 0
+        get :refresh
+        @user.tworgies(true).length.should == 2
+      end
+
+    end
+    
+  end
+  
   describe 'POST create' do
     describe 'with twitterer' do
       before :each do

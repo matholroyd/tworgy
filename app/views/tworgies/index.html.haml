@@ -10,11 +10,12 @@
     - if twitterer?
       %ul#location_list
         - current_user.tworgies.each do |tworgy|
-          %li.tworgy
-            = check_box tworgy.id, tworgy.name
+          %li.tworgy{:ref => tworgy.id}
+            = check_box_tag tworgy.name, tworgy.id, tworgy.enabled
             %span{:ref => tworgy.id}= tworgy.slug
       %p
         %a#addList{:href => '#'} Add list
+        = link_to 'Refresh tworgies', refresh_tworgies_path
       %fieldset#fieldsAddList.tworgy
         - semantic_form_for @tworgy do |f|
           - f.inputs do
@@ -27,11 +28,10 @@
       - semantic_form_for UserSession.new, :url => user_session_path do |f|
         = oauth_login_button :value => "Login with Twitter"
   %fieldset#map
-    %p
-      %form{:onsubmit => 'return false;'}
-        %label Find a location:
-        %input#inputAddress{:type => 'text', :value => '', :size => 60}
-        %input#findAddress{:type => 'submit', :value => 'Find'}
+    %form{:onsubmit => 'return false;'}
+      %label Find a location:
+      %input#inputAddress{:type => 'text', :value => '', :size => 60}
+      %input#findAddress{:type => 'submit', :value => 'Find'}
 
     #map_canvas{:style => "width:auto; height:400px; margin:20px 0px;"}
   %p

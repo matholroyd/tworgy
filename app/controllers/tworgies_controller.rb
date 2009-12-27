@@ -1,13 +1,18 @@
 class TworgiesController < ApplicationController
   skip_before_filter :require_user, :only => :index
-  before_filter :require_twitterer, :only => [:create, :update]
+  before_filter :require_twitterer, :only => [:create, :update, :refresh]
   
   resource_controller  
 
-  index.before do
+  def index
     @tworgy = Tworgy.new
   end
 
+  def refresh
+    current_user.repopulate_tworgies
+    redirect_to tworgies_path
+  end
+  
   def create 
     @tworgy = current_user.tworgies.new params[:tworgy]
     if @tworgy.save
@@ -17,7 +22,13 @@ class TworgiesController < ApplicationController
     end
   end
 
+
   update.wants.html { redirect_to(tworgies_path) }
+
+  # update.wants do
+  #   html { redirect_to(tworgies_path) }
+  #   # json { render :nothing => true }
+  # end
 
   private 
   

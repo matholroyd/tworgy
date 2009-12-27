@@ -8,8 +8,9 @@ class CreateTworgies < ActiveRecord::Migration
       t.integer :members_count
       t.integer :subscribers_count
       t.string :uri
-      t.decimal :latitude
+      t.string :latitude
       t.string :longitude
+      t.boolean :enabled
 
       t.timestamps
     end

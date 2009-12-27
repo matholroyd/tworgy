@@ -6,4 +6,7 @@ class UserSession < Authlogic::Session::Base
       { :site => APIs[:twitter][:site], :authorize_url => APIs[:twitter][:authenticate_url]}
     )
   end
+  
+  def after_create 
+  end
 end  

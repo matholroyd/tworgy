@@ -3,6 +3,7 @@
 var geocoder = new google.maps.Geocoder();
 var map;
 var marker;
+var marker_tworgy_id;
 var dialogSetMarker;
 
 function setupMap() {
@@ -29,15 +30,20 @@ function findAddress() {
   });
 }
 
+function setDraggableMarker(tworgy_id) {
+  addMarker(tworgy_id, map.getCenter());
+}
+
 function addMarker(tworgy_id, pos) {
   if(marker) {
     clearMarker();
   }
 
+  marker_tworgy_id = tworgy_id;
   marker = new google.maps.Marker({
     position: pos,
     map: map, 
-    title:"Hello World!",
+    title: 'Drag marker to where the Tworgy is happening',
     draggable:true
   });
 
@@ -48,12 +54,16 @@ function addMarker(tworgy_id, pos) {
 
    google.maps.event.addListener(marker, 'drag', function() {
      updateMarkerStatus('Dragging...');
-     updateMarkerPosition(marker.get_position());
+     updateMarkerPosition(marker.getPosition());
    });
-
+   
    google.maps.event.addListener(marker, 'dragend', function() {
      updateMarkerStatus('Drag ended');
-     geocodePosition(marker.get_position());
+     updateTworgy(tworgy_id, {
+       'tworgy[latitude]': marker.getPosition().lat(), 
+       'tworgy[longitude]': marker.getPosition().lng()}
+     );
+     geocodePosition(marker.getPosition());
    });
 }
 
@@ -126,27 +136,41 @@ $(document).ready(function() {
   
   $("ul#location_list li span").click(function() {
     $("ul#location_list li").removeClass('active');
-    $(this).parent().addClass('active');
+    
+    var li = $(this).parent();
+    var tworgy_id = li.attr('ref');
+
+    li.addClass('active');
+    setDraggableMarker(tworgy_id);
   });
   $("ul#location_list li input").click(function() {
-    toggleCheckBox($(this).parent());
+    toggleCheckBox(this, true);
   });
 
-  // $("ul#location_list li span").click(function() {
-  //   $("ul#location_list li").removeClass('active');
-  //   $(this).parent().addClass('active');
-  // });
-  // $("ul#location_list li input").click(function() {
-  //   toggleCheckBox($(this).parent());
-  // });
-
+  $("ul#location_list li input").each(function() {
+     toggleCheckBox(this, false);
+  });
 });   
 
 
-function toggleCheckBox(li) {
-  li.toggleClass("enabled", this.checked);    
-  var input = li.children('input')
-  input.attr('checked', li.hasClass('enabled'));
+function tworgyPath(tworgy_id) {
+  return '/tworgies/' + tworgy_id;
+}
+
+function updateTworgy(tworgy_id, data) {
+  $.put(tworgyPath(tworgy_id), data, null, 'json');
+}
+
+function toggleCheckBox(checkbox, update) {
+  var enabled = checkbox.checked;
+  var li = $(checkbox).parent();
+  
+  li.toggleClass("enabled", enabled);    
+  var tworgy_id = li.attr('ref');
+  
+  if(update) {
+    updateTworgy(tworgy_id, {'tworgy[enabled]': enabled});
+  }
 }
 
 </script>

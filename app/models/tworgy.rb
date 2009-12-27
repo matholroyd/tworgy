@@ -16,7 +16,7 @@ class Tworgy < ActiveRecord::Base
   def create_list_on_twitter
     DBC.require(!user || user.twitterer?)
     
-    if twitter_list_id.nil? && user && user.twitterer?
+    if twitter_list_id.nil? && user && user.twitterer? 
       begin
         list = user.twitter.list_create user.twitter_username, :name => name
         self.slug = list[:slug]
