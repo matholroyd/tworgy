@@ -1,10 +1,11 @@
 require 'spec_helper'
 
 describe TworgiesController do
+  integrate_views
+  
   before :each do
     @user = User.make(:oauth_token => 'token', :oauth_secret => 'secret')
   end
-
   
   describe 'GET index' do
     describe 'with twitterer' do
@@ -48,6 +49,11 @@ describe TworgiesController do
         tworgy.twitter_list_id.should == 9876
         tworgy.uri.should == 'some uri'
         tworgy.slug.should == 'aslug'
+      end
+      
+      it 'should render index if problem' do
+        post :create
+        response.should render_template('index')
       end
     end
 

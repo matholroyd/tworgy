@@ -86,8 +86,7 @@ function updateMarkerAddress(str) {
 }
 
 $(document).ready(function() {
-  $('#smallAddList a').attr('href', '#');
-  $('#smallAddList a').click(function() {
+  $('a#addList').click(function() {
     $('#fieldsAddList').toggle();
   });
 
@@ -132,6 +131,14 @@ $(document).ready(function() {
   $("ul#location_list li input").click(function() {
     toggleCheckBox($(this).parent());
   });
+
+  // $("ul#location_list li span").click(function() {
+  //   $("ul#location_list li").removeClass('active');
+  //   $(this).parent().addClass('active');
+  // });
+  // $("ul#location_list li input").click(function() {
+  //   toggleCheckBox($(this).parent());
+  // });
 
 });   
 

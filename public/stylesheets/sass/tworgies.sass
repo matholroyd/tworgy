@@ -5,16 +5,7 @@
 
 body.tworgies_index
   
-  #createTworgy
-    :float left
-    :width 300px
-    :margin 0px 20px 0px 0px
-    h2
-      :font
-        :size 1em
-        :family 'tahoma'
   #map
-  
   .clickable
     :color blue
     :text-decoration underline
@@ -42,7 +33,6 @@ body.tworgies_index
       
 
   fieldset 
-    :background = !normal
     :border 1px solid #999
 
   fieldset#map 
@@ -57,29 +47,41 @@ body.tworgies_index
     :-webkit-border-radius 3px
     :border-radius 3px
 
+  #tworgies
+    :border 1px solid #999
+    :-moz-border-radius 10px
+    :-webkit-border-radius 10px
+    :border-radius 10px
+    :padding 20px 10px
+    :background = !normal
+    :float left
+    :width 300px
+    :margin 0px 20px 0px 0px
+    h2
+      :font
+        :size 1em
+        :family 'tahoma'
+
+  .tworgy
+    :margin 0
+    :padding 7px 10px
+    &:hover 
+      :background = !hover
+  .tworgy.enabled 
+    :margin-right -36px
+    :font-weight bold      
+    :background = !enabled
+  .tworgy.active 
+    :background = !active
+    :font-weight bold
+  
+
   ul#location_list 
     :margin 0 -10px 15px -10px
     :padding 0
     :list-style none
-    li 
-      :margin 0
-      :padding 7px 10px
     li:nth(1) 
       :background #dedede
-
-    li
-      &:hover 
-        :background = !hover
-    
-    li.enabled 
-      :margin-right -36px
-      :font-weight bold      
-      :background = !enabled
-
-    li.active 
-      :background = !active
-      :font-weight bold
-
     li 
       input 
         :margin-right 10px

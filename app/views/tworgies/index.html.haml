@@ -5,19 +5,17 @@
   = render 'index_js'
     
 #columns
-  %fieldset#createTworgy
-    %h2 Create a Tworgy
-    - if current_user && current_user.twitterer?
-      %h3 Your lists
+  #tworgies
+    %h2 Your Tworgy list
+    - if twitterer?
       %ul#location_list
         - current_user.tworgies.each do |tworgy|
-          %li
+          %li.tworgy
             = check_box tworgy.id, tworgy.name
             %span{:ref => tworgy.id}= tworgy.slug
-      #smallAddList
-        %a{:href => 'add_list'}
-          %span Add list
-      %fieldset#fieldsAddList
+      %p
+        %a#addList{:href => '#'} Add list
+      %fieldset#fieldsAddList.tworgy
         - semantic_form_for @tworgy do |f|
           - f.inputs do
             = f.input :name, :input_html => {:maxlength => 20, :size => 20}

@@ -5,7 +5,7 @@ class TworgiesController < ApplicationController
   resource_controller  
 
   index.before do
-    @tworgy = Tworgy.new if current_user.twitterer?
+    @tworgy = Tworgy.new
   end
 
   def create 
@@ -13,7 +13,7 @@ class TworgiesController < ApplicationController
     if @tworgy.save
       redirect_to tworgies_path
     else
-      
+      render :index
     end
   end
 
@@ -22,7 +22,7 @@ class TworgiesController < ApplicationController
   private 
   
   def require_twitterer
-    unless current_user.twitterer?
+    unless twitterer?
       flash[:error] = 'You need to have twitter credentials associated with your account to access this action'
       redirect_to tworgies_path
     end
