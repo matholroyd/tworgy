@@ -5,8 +5,9 @@ var map;
 var marker;
 var marker_tworgy_id;
 var dialogSetMarker;
+var tworgy_latlngs = <%= @tworgy_latlngs %>;
 
-function setupMap() {
+function setupMap() {  
   var latlng = new google.maps.LatLng(-34.397, 150.644);
   if (google.loader.ClientLocation) {
     latlng = new google.maps.LatLng(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude);
@@ -30,8 +31,20 @@ function findAddress() {
   });
 }
 
-function setDraggableMarker(tworgy_id) {
-  addMarker(tworgy_id, map.getCenter());
+function setupDraggableMarker(tworgy_id) {  
+  var latlng = null;
+  
+  var tworgy_ll = tworgy_latlngs[tworgy_id];
+  var lat = tworgy_ll.lat;
+  var lng = tworgy_ll.lng;
+  
+  if(lat && lng) {
+    latlng = new google.maps.LatLng(lat, lng);
+  } else {
+    latlng = map.getCenter();
+  }
+  
+  addMarker(tworgy_id, latlng);
 }
 
 function addMarker(tworgy_id, pos) {
@@ -46,6 +59,8 @@ function addMarker(tworgy_id, pos) {
     title: 'Drag marker to where the Tworgy is happening',
     draggable:true
   });
+  
+  map.panTo(pos);
 
   // Add dragging event listeners.
    google.maps.event.addListener(marker, 'dragstart', function() {
@@ -59,10 +74,7 @@ function addMarker(tworgy_id, pos) {
    
    google.maps.event.addListener(marker, 'dragend', function() {
      updateMarkerStatus('Drag ended');
-     updateTworgy(tworgy_id, {
-       'tworgy[latitude]': marker.getPosition().lat(), 
-       'tworgy[longitude]': marker.getPosition().lng()}
-     );
+     updateTworgyLatLng(tworgy_id, marker.getPosition());
      geocodePosition(marker.getPosition());
    });
 }
@@ -103,14 +115,6 @@ $(document).ready(function() {
   setupMap();
 
 
-  $('.addMarker').click(function() {
-    $('#finishingOffAddingMarker').show();
-    var tworgy_id = this.attributes['ref'].value;
-    addMarker(tworgy_id, map.getCenter());
-    //dialogSetMarker.dialog('open');
-    $('#dialogSetMarker').dialog('open');
-  });
-
   $('#finishedAddingMarker').click(function() {
   
   });
@@ -141,7 +145,7 @@ $(document).ready(function() {
     var tworgy_id = li.attr('ref');
 
     li.addClass('active');
-    setDraggableMarker(tworgy_id);
+    setupDraggableMarker(tworgy_id);
   });
   $("ul#location_list li input").click(function() {
     toggleCheckBox(this, true);
@@ -157,6 +161,14 @@ function tworgyPath(tworgy_id) {
   return '/tworgies/' + tworgy_id;
 }
 
+function updateTworgyLatLng(tworgy_id, pos) {
+  updateTworgy(tworgy_id, {
+    'tworgy[latitude]': pos.lat(), 
+    'tworgy[longitude]': pos.lng()}
+  );
+  tworgy_latlngs[tworgy_id] = {lat : pos.lat(), lng : pos.lng()};
+}
+
 function updateTworgy(tworgy_id, data) {
   $.put(tworgyPath(tworgy_id), data, null, 'json');
 }
@@ -166,9 +178,9 @@ function toggleCheckBox(checkbox, update) {
   var li = $(checkbox).parent();
   
   li.toggleClass("enabled", enabled);    
-  var tworgy_id = li.attr('ref');
   
   if(update) {
+    var tworgy_id = li.attr('ref');
     updateTworgy(tworgy_id, {'tworgy[enabled]': enabled});
   }
 }

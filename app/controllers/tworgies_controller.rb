@@ -5,7 +5,11 @@ class TworgiesController < ApplicationController
   resource_controller  
 
   def index
-    @tworgy = Tworgy.new
+    if twitterer?
+      @tworgy = Tworgy.new
+      @tworgies = current_user.tworgies
+      @tworgy_latlngs = @tworgies.inject({}) {|hash, t| hash[t.id] = {:lng => t.longitude, :lat => t.latitude}; hash}.to_json
+    end
   end
 
   def refresh
@@ -24,11 +28,6 @@ class TworgiesController < ApplicationController
 
 
   update.wants.html { redirect_to(tworgies_path) }
-
-  # update.wants do
-  #   html { redirect_to(tworgies_path) }
-  #   # json { render :nothing => true }
-  # end
 
   private 
   
