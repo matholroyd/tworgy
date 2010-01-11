@@ -4,5 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users
   map.resources :posts
 
+  map.controller_actions 'home', %w{testing}
+
   map.root :controller => 'home', :action => 'index'
 end

@@ -6,6 +6,7 @@ var marker;
 var marker_tworgy_id;
 var dialogSetMarker;
 var tworgy_latlngs = <%= @tworgy_latlngs %>;
+var tjson = <%= @tjson %>;
 
 function setupMap() {  
   var latlng = new google.maps.LatLng(-34.397, 150.644);
@@ -24,12 +25,21 @@ function setupMap() {
 function findAddress() {
   geocoder.geocode( { 'address': $('#inputAddress').val()}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
-      map.fitBounds(results[0].geometry.bounds);
+      var geometry = results[0].geometry;
+
+      if(marker) {
+        updateTworgyLatLng(marker_tworgy_id, geometry.location);
+        // marker.setPosition(geometry.location);
+        // map.panTo(geometry.location);
+      }
+
+      map.fitBounds(geometry.bounds);
     } else {
       alert("Geocode was not successful for the following reason: " + status);
     }
   });
 }
+
 
 function setupDraggableMarker(tworgy_id) {  
   var latlng = null;
@@ -59,21 +69,17 @@ function addMarker(tworgy_id, pos) {
     title: 'Drag marker to where the Tworgy is happening',
     draggable:true
   });
+
+  geocodePosition(marker.getPosition());
+  // if(map.getZoom() > 15) {
+  //   map.setZoom(15);
+  // }
   
+  var zoom = map.getZoom();
   map.panTo(pos);
-
-  // Add dragging event listeners.
-   google.maps.event.addListener(marker, 'dragstart', function() {
-     updateMarkerAddress('Dragging...');
-   });
-
-   google.maps.event.addListener(marker, 'drag', function() {
-     updateMarkerStatus('Dragging...');
-     updateMarkerPosition(marker.getPosition());
-   });
+  map.setZoom(zoom);
    
    google.maps.event.addListener(marker, 'dragend', function() {
-     updateMarkerStatus('Drag ended');
      updateTworgyLatLng(tworgy_id, marker.getPosition());
      geocodePosition(marker.getPosition());
    });
@@ -95,16 +101,8 @@ function geocodePosition(pos) {
   });
 }
 
-function updateMarkerStatus(str) {
-  $('#markerStatus').html(str);
-}
-
-function updateMarkerPosition(latLng) {
-  $('#markerPosition').html([latLng.lat(), latLng.lng()].join(', '));
-}
-
 function updateMarkerAddress(str) {
-  $('#markerAddress').html(str);
+  $('#inputAddress').val(str);
 }
 
 $(document).ready(function() {
@@ -166,6 +164,8 @@ function updateTworgyLatLng(tworgy_id, pos) {
     'tworgy[latitude]': pos.lat(), 
     'tworgy[longitude]': pos.lng()}
   );
+  marker.setPosition(pos);
+  map.panTo(pos);
   tworgy_latlngs[tworgy_id] = {lat : pos.lat(), lng : pos.lng()};
 }
 

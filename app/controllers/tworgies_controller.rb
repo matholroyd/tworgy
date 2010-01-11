@@ -8,8 +8,12 @@ class TworgiesController < ApplicationController
     if twitterer?
       @tworgy = Tworgy.new
       @tworgies = current_user.tworgies
-      @tworgy_latlngs = @tworgies.inject({}) {|hash, t| hash[t.id] = {:lng => t.longitude, :lat => t.latitude}; hash}.to_json
+      @tworgy_latlngs = @tworgies.inject({}) {|hash, t| hash[t.id] = {:lng => t.longitude, :lat => t.latitude}; hash}
+      @tjson = @tworgies.to_json
+    else
+      @tworgy_latlngs = []
     end
+    @tworgy_latlngs = @tworgy_latlngs.to_json
   end
 
   def refresh
