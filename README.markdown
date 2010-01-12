@@ -56,20 +56,6 @@ Goals
 - Create lists via the service 
 - Associate an existing list with a location (along with a short description)
 
-Learning Goals
---------------
-
-* Display a google map
-* Add icon to a google map
-* Get the location of the icon dragged onto the map 
-* Display a bunch of locations as icons on a google map
-* Allow users to login using Twitter + OAuth
-
-* Use OAuth to enable a user to create a twitter list on their accounts
-* Associate twitter list with a place/icon on google map
-* Ask if want to tweet the newly created association (locations <-> twitter list) 
-* Allow a user to add themselves to a twitter list (as follower and user followed)
-  
 User goals & workflow
 ---------------------
 
@@ -98,7 +84,9 @@ WorkFlow
   d If no, grey out map, with message that need to pick map location
   d If yes, ungrey map, show pin, allow user to update position (new position automatically saved)
 
-
+*Design*
+- Load tworgies objects via ajax
+- Display so know that have received them correctly
 
   
 

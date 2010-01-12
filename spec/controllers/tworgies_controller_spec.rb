@@ -5,26 +5,47 @@ describe TworgiesController do
   
   before :each do
     @user = User.make(:oauth_token => 'token', :oauth_secret => 'secret')
+    @user_other = User.make(:oauth_token => 'token2', :oauth_secret => 'secret')
   end
   
   describe 'GET index' do
-    describe 'with twitterer' do
+    it 'should return success if not logged in' do
+      get :index
+      response.status.should == '200 OK'
+    end
+
+    it 'should return success if logged in' do
+      UserSession.create(@user)
+      get :index
+      response.status.should == '200 OK'
+    end
+
+    describe 'JSON' do
       it 'should return success' do
-        get :index
+        get :index, :format => 'json'
         response.status.should == '200 OK'
       end
+
+      it 'should return all tworgies' do
+        get :index, :format => 'json'
+        assigns(:tworgies).should == Tworgy.all 
+      end
       
-      it 'should set @tworgy' do
-        get :index
-        assigns(:tworgy).should_not be_nil
+      it 'should only return the users tworgies' do
+        @user.tworgies(true).count.should == 2
+        @user_other.tworgies(true).count.should == 2
+        
+        UserSession.create(@user)
+        get :index, :current_user_only => true, :format => 'json'
+        assigns(:tworgies).should == @user.tworgies
       end
     end
-    
   end
   
   describe 'GET refresh' do
     describe 'with twitterer' do
       before :each do
+        @user.tworgies.destroy_all
         UserSession.create(@user)
       end
       

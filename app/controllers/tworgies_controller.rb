@@ -4,16 +4,15 @@ class TworgiesController < ApplicationController
   
   resource_controller  
 
-  def index
-    if twitterer?
-      @tworgy = Tworgy.new
-      @tworgies = current_user.tworgies
-      @tworgy_latlngs = @tworgies.inject({}) {|hash, t| hash[t.id] = {:lng => t.longitude, :lat => t.latitude}; hash}
-      @tjson = @tworgies.to_json
-    else
-      @tworgy_latlngs = []
+  index.response do |wants|
+    wants.html
+    wants.json do 
+      # render :json => collection.serialize(:json, :attributes => 
+      #   %w{id twitter_list_id name slug members_count subscribers_count uri latitude longitude} 
+      # )
+      render :json => collection.to_json
     end
-    @tworgy_latlngs = @tworgy_latlngs.to_json
+    
   end
 
   def refresh
@@ -34,6 +33,10 @@ class TworgiesController < ApplicationController
   update.wants.html { redirect_to(tworgies_path) }
 
   private 
+  
+  def collection
+    @collection ||= params[:current_user_only] ? current_user.tworgies : Tworgy.all
+  end
   
   def require_twitterer
     unless twitterer?

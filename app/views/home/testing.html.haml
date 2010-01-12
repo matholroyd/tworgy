@@ -1,8 +1,9 @@
 :javascript
-  var animal = 'dog';
-  switch(animal) {
-  case 'dog':
-    //Code
-    break;
-  default
+  var animal = {type:'dog'};
+  animal.name = 'bob';
+  animal.speak = function() {
+    alert(this.name);
   }
+  animal.speak();
+  
+    

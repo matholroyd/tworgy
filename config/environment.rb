@@ -26,4 +26,6 @@ Rails::Initializer.run do |config|
   config.active_record.timestamped_migrations = false
 end
 
+ActiveRecord::Base.include_root_in_json = false
+
 App = YAML.load(File.read(RAILS_ROOT + "/config/config.yml"))[RAILS_ENV].recursively!(&:symbolize_keys)
