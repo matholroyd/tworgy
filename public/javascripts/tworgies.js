@@ -5,88 +5,28 @@
 // var dialogSetMarker;
 // var tworgy_latlngs = [];
 
-var TworgyManager = {
-    allTworgies : []
-    ,userTworgies : []
-    ,config:function(tworgy_map) {
-        this.map = tworgy_map.map;
-    }
-    ,loadAllTworgies : function() {
-        var that = this;
-        jQuery.getJSON('/tworgies.json', function(data) { 
-            that.allTworgies = data;
-            that.load(data);
-        });
-    }
-    ,loadUserTworgies : function(user_id) {
-        var that = this;
-        jQuery.getJSON('/tworgies.json?current_user_only=true', function(data) { 
-            that.userTworgies = data;
-            that.load(data);
-        });
-    }
-    ,load:function(data) {
-        for(var i = 0; i < data.length; i++) {
-            data[i].marker = new google.maps.Marker({
-                position: new google.maps.LatLng(data[i].latitude, data[i].longitude),
-                map: this.map, 
-                title: 'Drag marker to where the Tworgy is happening',
-                draggable:true
-            });
-        }
-        
-        if(this.callback.onLoad) {
-            this.callback.onLoad(data);
-        }
-    }
-    ,callback: {
-        onLoad:null
-    }
-}
-
-var TworgyMap = {
-    geocoder:new google.maps.Geocoder()
-    ,setup:function() {
-        var latlng = new google.maps.LatLng(-34.397, 150.644);
-
-        if (google.loader.ClientLocation) {
-          latlng = new google.maps.LatLng(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude);
-        }
-        
-        var myOptions = {
-          zoom: 5,
-          center: latlng,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        this.map = new google.maps.Map($("#map_canvas:first")[0], myOptions);
-    }
-    ,findAddress:function() {
-      var that = this;
-      this.geocoder.geocode( { 'address': $('#inputAddress').val()}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          var geometry = results[0].geometry;
-
-          that.map.fitBounds(geometry.bounds);
-        } else {
-          alert("Geocode was not successful for the following reason: " + status);
-        }
-      });
-    }
-}
-
+var tworgyMap;
+var tworgyManager;
 
 $(document).ready(function() {
 
-    TworgyMap.setup();
-
-    $('#findAddress').click(function() {
-        TworgyMap.findAddress();
+    tworgyMap = new TworgyMap({
+        map:$("#map_canvas:first")[0]
     });
 
-    TworgyManager.config(TworgyMap);
-    TworgyManager.callback.onLoad = function(data) {
-    }
-    TworgyManager.loadAllTworgies();
+    $('#findAddress').click(function() {
+        tworgyMap.findAddress();
+    });
+
+    tworgyManager = new TworgyManager({
+        tworgyMap:tworgyMap
+        ,callback : {
+            onLoad: function(data) {
+                
+            }
+        }
+    });
+    tworgyManager.loadAllTworgies();
 
 });
 
