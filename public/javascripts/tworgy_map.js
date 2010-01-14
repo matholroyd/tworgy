@@ -1,4 +1,6 @@
 function TworgyMap(options) {
+    DBC.require(options.map);
+
     var latlng = new google.maps.LatLng(-34.397, 150.644);
 
     if (google.loader.ClientLocation) {
@@ -11,11 +13,11 @@ function TworgyMap(options) {
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     
-    this.map = new google.maps.Map(options.map, myOptions);
+    this.map = new google.maps.Map(jQuery(options.map)[0], myOptions);
     this.geocoder = new google.maps.Geocoder()
     this.findAddress = function() {
       var that = this;
-      this.geocoder.geocode( { 'address': $('#inputAddress').val()}, function(results, status) {
+      this.geocoder.geocode( { 'address': jQuery('#inputAddress').val()}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           var geometry = results[0].geometry;
 

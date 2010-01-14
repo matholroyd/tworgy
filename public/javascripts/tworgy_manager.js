@@ -1,4 +1,6 @@
 function TworgyManager(options) {
+    DBC.require(options.tworgyMap);
+    
     this.tworgyMap = options.tworgyMap;
     this.allTworgies = [];
     this.userTworgies = [];

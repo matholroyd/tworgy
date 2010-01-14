@@ -2,31 +2,39 @@
   %meta{:name => "viewport", :content => "initial-scale=1.0, user-scalable=no"}
   %script{:type => "text/javascript", :src => "http://maps.google.com/maps/api/js?sensor=false"}
   %script{:type => "text/javascript", :src => "http://www.google.com/jsapi"}
-  = javascript_include_tag %w{tworgy_map tworgy_manager tworgies}
+  = javascript_include_tag %w{dbc tworgy_map tworgy_manager tworgies}
     
 #columns
-  #tworgies
-    %h2 Your Tworgy list
-    - if twitterer?
-      %ul#location_list
-    /     - current_user.tworgies.each do |tworgy|
-    /       %li.tworgy{:ref => tworgy.id}
-    /         = check_box_tag tworgy.name, tworgy.id, tworgy.enabled
-    /         %span{:ref => tworgy.id}= tworgy.slug
-    /   %p
-    /     %a#addList{:href => '#'} Add list
-    /     = link_to 'Refresh tworgies', refresh_tworgies_path
-    /   %fieldset#fieldsAddList.tworgy
-    /     - semantic_form_for @tworgy do |f|
-    /       - f.inputs do
-    /         = f.input :name, :input_html => {:maxlength => 20, :size => 20}
-    /         = f.input :add_yourself, :as => :boolean
-    /         = f.input :follow_list, :as => :boolean
-    /       - f.buttons do
-    /         = f.commit_button 
-    / - else
-    /   - semantic_form_for UserSession.new, :url => user_session_path do |f|
-    /     = oauth_login_button :value => "Login with Twitter"
+  #tworgy_lists
+    #tabs
+      %ul
+        %li
+          %a{:href => '#allTworgies'} All
+        %li
+          %a{:href => '#userTworgies'} Your tworgies
+      #allTworgies
+        %ul.list
+      #userTworgies
+        %ul.list
+      
+      /     - current_user.tworgies.each do |tworgy|
+      /       %li.tworgy{:ref => tworgy.id}
+      /         = check_box_tag tworgy.name, tworgy.id, tworgy.enabled
+      /         %span{:ref => tworgy.id}= tworgy.slug
+      /   %p
+      /     %a#addList{:href => '#'} Add list
+      /     = link_to 'Refresh tworgies', refresh_tworgies_path
+      /   %fieldset#fieldsAddList.tworgy
+      /     - semantic_form_for @tworgy do |f|
+      /       - f.inputs do
+      /         = f.input :name, :input_html => {:maxlength => 20, :size => 20}
+      /         = f.input :add_yourself, :as => :boolean
+      /         = f.input :follow_list, :as => :boolean
+      /       - f.buttons do
+      /         = f.commit_button 
+      / - else
+      /   - semantic_form_for UserSession.new, :url => user_session_path do |f|
+      /     = oauth_login_button :value => "Login with Twitter"
   %fieldset#map
     %form{:onsubmit => 'return false;'}
       %label Find a location:
@@ -35,11 +43,11 @@
 
     #map_canvas{:style => "width:auto; height:400px; margin:20px 0px;"}
 
-#dialogSetMarker{:title => "Mark location of "}
-  %p
-    %label Name
-    %input{:type => 'text'}
-  %p
-    %input{:type => 'submit', :value => 'create tworgy'}
-  
-
+/ #dialogSetMarker{:title => "Mark location of "}
+/   %p
+/     %label Name
+/     %input{:type => 'text'}
+/   %p
+/     %input{:type => 'submit', :value => 'create tworgy'}
+/   
+/ 

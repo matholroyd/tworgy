@@ -2,6 +2,7 @@
 !hover = #e3e600 
 !enabled = #e39600
 !active = #e33800
+!border = #999
 
 body.tworgies_index
   
@@ -33,13 +34,14 @@ body.tworgies_index
       
 
   fieldset 
-    :border 1px solid #999
+    :border = 1px solid !border
 
   fieldset#map 
     :background = !enabled
     :-moz-border-radius 10px
     :-webkit-border-radius 10px
     :border-radius 10px
+    :padding 20px
 
   #map_canvas
     :border = 3px solid !active
@@ -47,20 +49,36 @@ body.tworgies_index
     :-webkit-border-radius 3px
     :border-radius 3px
 
-  #tworgies
-    :border 1px solid #999
-    :-moz-border-radius 10px
-    :-webkit-border-radius 10px
-    :border-radius 10px
-    :padding 20px 10px
-    :background = !normal
+  #tworgy_lists
+    :padding 0px
     :float left
     :width 300px
     :margin 0px 20px 0px 0px
-    h2
-      :font
-        :size 1em
-        :family 'tahoma'
+    :border none
+    .ui-tabs
+      :padding 0px
+      :border 0px solid #999
+    ul.ui-tabs-nav
+      :padding 10px 10px 0px 10px
+      :background none
+      :border none
+      li
+        :padding-left 10px
+        :padding-right 10px
+        :margin-left 5px
+        :margin-right 5px
+      li.ui-tabs-selected
+        :background = !normal
+        :border = 1px solid !border
+        a
+          :color = black
+      li.ui-state-default
+        :border = 1px solid !border
+    .ui-tabs-panel
+      :background = !normal
+      :border = 1px solid !border
+      
+        
 
   .tworgy
     :margin 0

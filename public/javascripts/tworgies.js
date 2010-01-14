@@ -11,7 +11,7 @@ var tworgyManager;
 $(document).ready(function() {
 
     tworgyMap = new TworgyMap({
-        map:$("#map_canvas:first")[0]
+        map:"#map_canvas"
     });
 
     $('#findAddress').click(function() {
@@ -22,11 +22,21 @@ $(document).ready(function() {
         tworgyMap:tworgyMap
         ,callback : {
             onLoad: function(data) {
-                
+                var i;
+                var tworgy;
+                for(i = 0; i < data.length; i++ ) {
+                    tworgy = data[i];
+                    $('#allTworgies ul').append('<li>' + tworgy.slug + '</li>');
+                }
             }
         }
     });
     tworgyManager.loadAllTworgies();
+    tworgyManager.loadUserTworgies();
+
+    $('#tabs').tabs({
+        selected:0
+    });
 
 });
 
