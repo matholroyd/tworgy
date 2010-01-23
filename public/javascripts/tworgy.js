@@ -1,6 +1,7 @@
 Tworgy = {
-    callback:{}
-    ,setupCallbacks:function(tworgy) {
+    setupCallbacks:function(tworgy) {
+        DBC.require(this.callback);
+
         DBC.require(tworgy);
         DBC.require(tworgy.marker);
         
@@ -24,13 +25,12 @@ Tworgy = {
     }
 }
 
-function TworgyFactory(tworgy, tworgyMap) {
+function TworgyFactory(tworgy) {
     DBC.require(tworgy);
-    DBC.require(tworgyMap);
     
     tworgy.marker = new google.maps.Marker({
         position: new google.maps.LatLng(tworgy.latitude, tworgy.longitude)
-        ,map: tworgyMap.map
+        ,map: Tworgy.tworgyMap.map
         ,title: tworgy.name
         ,draggable:true
     });

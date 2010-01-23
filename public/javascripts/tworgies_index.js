@@ -18,14 +18,12 @@ $(document).ready(function() {
         tworgyMap.findAddress();
     });
     
-    Tworgies.prototype = {
-        tworgyMap: tworgyMap
-        ,callback : { 
-            tworgyRenderer: tworgyRenderer 
-            ,markerClick: markerClick
-            ,markerMouseOver: markerMouseOver
-            ,markerMouseOut: markerMouseOut
-        }
+    Tworgy.tworgyMap = tworgyMap;
+    Tworgy.callback = { 
+        tworgyRenderer: tworgyRenderer 
+        ,markerClick: markerClick
+        ,markerMouseOver: markerMouseOver
+        ,markerMouseOut: markerMouseOut
     }
     
     allTworgies = new Tworgies({

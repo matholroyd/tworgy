@@ -1,7 +1,4 @@
 function Tworgies(options) {
-    DBC.require(this.tworgyMap);
-    DBC.require(this.callback);
-
     DBC.require(options.url);
     DBC.require(options.domID);
 
@@ -9,7 +6,6 @@ function Tworgies(options) {
     this.domID = options.domID;
 
     var that = this;
-    Tworgy.callback = this.callback;
 
     this.process = function(tworgies) {
         this.hash = {};
@@ -23,8 +19,8 @@ function Tworgies(options) {
     this.setupTworgy = function(tworgy) {
         var result = Tworgies.Cache.add(tworgy, this.tworgyMap);
         
-        if(this.callback.tworgyRenderer) {
-            $(this.domID).append(this.callback.tworgyRenderer(result));
+        if(Tworgy.callback.tworgyRenderer) {
+            $(this.domID).append(Tworgy.callback.tworgyRenderer(result));
         }
         
         return result;
