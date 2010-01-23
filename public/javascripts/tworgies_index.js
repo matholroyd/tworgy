@@ -1,12 +1,12 @@
-// var geocoder = new google.maps.Geocoder();
-// var map;
-// var marker;
-// var marker_tworgy_id;
-// var dialogSetMarker;
-// var tworgy_latlngs = [];
-
 var tworgyMap;
-var tworgyManager;
+var userTworgies;
+var allTworgies;
+
+Jaml.register('tworgy', function(tworgy) {
+  li({class:'tworgy', ref:tworgy.id}
+    ,span(tworgy.name)
+  );
+});
 
 $(document).ready(function() {
 
@@ -17,34 +17,69 @@ $(document).ready(function() {
     $('#findAddress').click(function() {
         tworgyMap.findAddress();
     });
-
-    tworgyManager = new TworgyManager({
-        tworgyMap:tworgyMap
-        ,allTworgiesDomID: '#allTworgies ul.list'
-        ,userTworgiesDomID: '#userTworgies ul.list'
-        
-        ,callback : {
-            tworgyRenderer: function(tworgy) {
-                return '<li>' + tworgy.name + '</li>';
-            }
+    
+    Tworgies.prototype = {
+        tworgyMap: tworgyMap
+        ,callback : { 
+            tworgyRenderer: tworgyRenderer 
+            ,markerClick: markerClick
+            ,markerMouseOver: markerMouseOver
+            ,markerMouseOut: markerMouseOut
         }
+    }
+    
+    allTworgies = new Tworgies({
+        url:tworgiesPath()
+        ,domID: '#allTworgies ul.tworgies'
     });
-    tworgyManager.loadAllTworgies();
-    tworgyManager.loadUserTworgies();
+    
+    userTworgies = new Tworgies({
+        url:tworgiesCurrentUserOnlyPath()   
+        ,domID: '#userTworgies ul.tworgies'
+    });
 
     $('#tabs').tabs({
         selected:0
         ,select: function(event, ui) { 
-            if(ui.tab.hash == '#userTworgies') {
-                tworgyManager.showTworgies({userOnly:true});
-            } else {
-                tworgyManager.showTworgies({userOnly:false});
-            }
+            setVisibleTworgies({userOnly:ui.tab.hash == '#userTworgies'});
         }
     });
-
 });
 
+function setVisibleTworgies(options) {
+    if(options.userOnly) {
+        userTworgies.setVisible(true);
+    } else {
+        allTworgies.setVisible(true);
+    }
+}
+
+function markerClick(tworgy) {
+    $('.tworgy').removeClass('active');
+    $('.tworgy[ref="' + tworgy.id + '"]').addClass('active');
+}
+
+function markerMouseOver(tworgy) {
+    $('.tworgy').removeClass('hover');
+    $('.tworgy[ref="' + tworgy.id + '"]').addClass('hover');
+}
+
+function markerMouseOut(tworgy) {
+    $('.tworgy').removeClass('hover');
+}
+
+function tworgyRenderer(tworgy) {
+    // return '<li class="tworgy" ref="' + tworgy.id + '">' + tworgy.name + '</li>';
+    return Jaml.render('tworgy', tworgy);
+}
+
+function tworgiesPath() {
+    return '/tworgies.json';
+}
+
+function tworgiesCurrentUserOnlyPath() {
+    return tworgiesPath() + '?current_user_only=true';
+}
 
 function tworgyPath(tworgy_id) {
   return '/tworgies/' + tworgy_id;

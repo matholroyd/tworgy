@@ -1,8 +1,9 @@
 !normal = #ace600
-!hover = #e3e600 
 !enabled = #e39600
 !active = #e33800
 !border = #999
+//!hover = #e3e600 
+!hover = !active
 
 body.tworgies_index
   
@@ -78,43 +79,32 @@ body.tworgies_index
       :background = !normal
       :border = 1px solid !border
       
-        
 
-  .tworgy
-    :margin 0
-    :padding 7px 10px
+  ul.tworgies
+    :padding 0px
+  li.tworgy
+    :list-style none
+    :margin 0px -10px
+    :padding 5px
     &:hover 
       :background = !hover
-  .tworgy.enabled 
+    input 
+      :margin-right 10px
+      :cursor pointer
+    span 
+      :cursor pointer
+  li.tworgy.enabled 
     :margin-right -36px
-    :font-weight bold      
     :background = !enabled
-  .tworgy.active 
+  li.tworgy.active 
     :background = !active
-    :font-weight bold
-  
-
-  ul#location_list 
-    :margin 0 -10px 15px -10px
-    :padding 0
-    :list-style none
-    li:nth(1) 
-      :background #dedede
-    li 
-      input 
-        :margin-right 10px
-        :cursor pointer
-    li 
-      span 
-        :cursor pointer
-        :padding 0 5px
-    li.active:after 
-//      :content ">>"
+  li.tworgy.hover
+    :background = !hover
 
 #header 
   :padding 20px 0
-  //  :background #333
   :border-bottom 3px solid #222
+  //  :background #333
 
 #container 
   :margin 0 auto
