@@ -11,7 +11,7 @@ var tworgyManager;
 $(document).ready(function() {
 
     tworgyMap = new TworgyMap({
-        map:"#map_canvas"
+        mapDomID:"#map_canvas"
     });
 
     $('#findAddress').click(function() {
@@ -20,14 +20,12 @@ $(document).ready(function() {
 
     tworgyManager = new TworgyManager({
         tworgyMap:tworgyMap
+        ,allTworgiesDomID: '#allTworgies ul.list'
+        ,userTworgiesDomID: '#userTworgies ul.list'
+        
         ,callback : {
-            onLoad: function(data) {
-                var i;
-                var tworgy;
-                for(i = 0; i < data.length; i++ ) {
-                    tworgy = data[i];
-                    $('#allTworgies ul').append('<li>' + tworgy.slug + '</li>');
-                }
+            tworgyRenderer: function(tworgy) {
+                return '<li>' + tworgy.name + '</li>';
             }
         }
     });

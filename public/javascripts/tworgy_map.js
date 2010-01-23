@@ -1,5 +1,5 @@
 function TworgyMap(options) {
-    DBC.require(options.map);
+    DBC.require(options.mapDomID);
 
     var latlng = new google.maps.LatLng(-34.397, 150.644);
 
@@ -13,7 +13,7 @@ function TworgyMap(options) {
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     
-    this.map = new google.maps.Map(jQuery(options.map)[0], myOptions);
+    this.map = new google.maps.Map(jQuery(options.mapDomID)[0], myOptions);
     this.geocoder = new google.maps.Geocoder()
     this.findAddress = function() {
       var that = this;
