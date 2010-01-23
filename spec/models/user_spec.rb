@@ -69,4 +69,14 @@ describe User do
     end
     
   end
+  
+  describe 'destroy' do
+    it 'should remove linked tworgies' do
+      lambda {
+        user = User.make(:oauth_token => 'token', :oauth_secret => 'secret')
+        user.tworgies.make
+        user.destroy
+      }.should change(Tworgy, :count).by(0)
+    end
+  end
 end

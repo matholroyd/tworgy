@@ -19,6 +19,8 @@ end
 Tworgy.blueprint do
   user
   name
+  latitude { (rand(20) - 10) - 25 }
+  longitude { (rand(20) - 10) + 131 }
 end
 
 def mock_twitter(options = {})

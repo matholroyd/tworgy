@@ -23,6 +23,15 @@ function TworgyManager(options) {
             that.userTworgies = that.process(data, that.userTworgiesDomID);
         });
     };
+    this.showTworgies = function(options) {
+        this.setVisible(this.allTworgies, !options.userOnly);
+        this.setVisible(this.userTworgies, options.userOnly);
+    }
+    this.setVisible = function(tworgies, visible) {
+        for(var i = 0; i < tworgies.length; i++) {
+            tworgies[i].marker.setVisible(visible);
+        }
+    }
     this.process = function(tworgies, domID) {
         for(var i = 0; i < tworgies.length; i++) {
             tworgies[i] = TworgyFactory({data:tworgies[i], tworgyMap:this.tworgyMap});

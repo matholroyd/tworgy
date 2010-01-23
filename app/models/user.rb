@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   acts_as_authentic
   
-  has_many :tworgies, :order => 'name'
+  has_many :tworgies, :order => 'name', :dependent => :destroy
   
   before_create :find_screen_name
   after_create :repopulate_tworgies
