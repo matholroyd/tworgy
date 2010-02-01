@@ -92,9 +92,6 @@ body.tworgies_index
       :margin-right 5px
     span 
       :padding 2px
-  li.tworgy.hover
-    :background = !hover
-
   #allTworgies
     li.tworgy
       input 
@@ -103,11 +100,19 @@ body.tworgies_index
     li.tworgy.fullAccess 
     li.tworgy.limitedAccess 
     li.tworgy.enabled 
-      :margin-right -44px
+      :margin-right -65px
       :background = !enabled
     li.tworgy.active 
       :background = !active
       :margin-right -65px
+  #allTworgies, #userTworgies
+    li.tworgy.hover
+      :background = !hover
+    li.tworgy.active
+      span
+        &:before
+          :content "» "
+        
 
 
 #header 
