@@ -10,60 +10,54 @@ function tworgyPath(tworgy_id) {
   return '/tworgies/' + tworgy_id;
 }
 
-
-Tworgy = {
-    setupCallbacks:function(tworgy) {
-        DBC.require(this.callback);
-
-        DBC.require(tworgy);
-        DBC.require(tworgy.marker);
-        
-        if(Tworgy.callback.markerClick) {
-            google.maps.event.addListener(tworgy.marker, 'click', function(event) {
-                Tworgy.callback.markerClick(tworgy);
-            });
-        }
-
-        if(Tworgy.callback.markerMouseOver) {
-            google.maps.event.addListener(tworgy.marker, 'mouseover', function(event) {
-                Tworgy.callback.markerMouseOver(tworgy);
-            });
-        }
-
-        if(Tworgy.callback.markerMouseOut) {
-            google.maps.event.addListener(tworgy.marker, 'mouseout', function(event) {
-                Tworgy.callback.markerMouseOut(tworgy);
-            });
+function Tworgy(data) {
+    DBC.require(data);
+    DBC.require(Tworgy.callback);
+    DBC.require(Tworgy.tworgyMap);
+    
+    for(var d in data) {
+        if (data.hasOwnProperty(d)) {
+            this[d] = data[d];
         }
     }
-};
 
-function TworgyFactory(tworgy) {
-    DBC.require(tworgy);
-
-    tworgy.fullAccess = tworgy.user_id == Tworgy.currentUserID;
-    
-    tworgy.marker = new google.maps.Marker({
-        position: new google.maps.LatLng(tworgy.latitude, tworgy.longitude)
+    var that = this;
+    this.fullAccess = this.user_id == Tworgy.currentUserID;
+    this.marker = new google.maps.Marker({
+        position: new google.maps.LatLng(this.latitude, this.longitude)
         ,map: Tworgy.tworgyMap.map
-        ,title: tworgy.name
-        ,draggable:tworgy.fullAccess
+        ,title: this.name
+        ,draggable:this.fullAccess
     });
     
-    Tworgy.setupCallbacks(tworgy);
+    if(Tworgy.callback.markerClick) {
+        google.maps.event.addListener(this.marker, 'click', function(event) {
+            Tworgy.callback.markerClick(that);
+        });
+    }
+
+    if(Tworgy.callback.markerMouseOver) {
+        google.maps.event.addListener(this.marker, 'mouseover', function(event) {
+            Tworgy.callback.markerMouseOver(that);
+        });
+    }
+
+    if(Tworgy.callback.markerMouseOut) {
+        google.maps.event.addListener(this.marker, 'mouseout', function(event) {
+            Tworgy.callback.markerMouseOut(that);
+        });
+    }
     
-    tworgy.update = function() {
+    this.update = function() {
         $.put(tworgyPath(this.id), {'tworgy[enabled]': this.enabled}, null, 'json');
         this.refresh();
-        
     };
-    tworgy.refresh = function(options) {
+
+    this.refresh = function(options) {
         var tworgyDom = Tworgy.callback.getTworgyDom(this.id);
         tworgyDom.replaceWith(Jaml.render('tworgy', this, options));
     };
-    
-    return tworgy;
-}
+};
 
 Tworgy.EventHandler = {
     toggleEnabled:function(tworgyID, tworgyDom, element) {

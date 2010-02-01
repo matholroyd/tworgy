@@ -20,8 +20,8 @@ function Tworgies(options) {
         
         this.data = tworgies;
     }
-    this.setupTworgy = function(tworgy) {
-        var result = Tworgies.Cache.add(tworgy, this.tworgyMap);
+    this.setupTworgy = function(tworgyData) {
+        var result = Tworgies.Cache.add(tworgyData);
         
         if(Tworgy.callback.tworgyRenderer) {
             $(this.domID).append(Tworgy.callback.tworgyRenderer(result));
@@ -51,12 +51,12 @@ Tworgies.Cache = {
     array:[]
     ,hash:{}
     ,callback:{}
-    ,add:function(tworgy, tworgyMap) {
+    ,add:function(tworgyData) {
         var that = this;
-        var result = this.hash[tworgy.id];
+        var result = this.hash[tworgyData.id];
         
         if(result == undefined) {
-            result = TworgyFactory(tworgy, tworgyMap);
+            result = new Tworgy(tworgyData);
 
             this.hash[result.id] = result;
             this.array.push(result);
