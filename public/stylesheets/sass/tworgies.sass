@@ -2,8 +2,8 @@
 !enabled = #e39600
 !active = #e33800
 !border = #999
-//!hover = #e3e600 
-!hover = !active
+!hover = #e3e600 
+//!hover = !active
 
 body.tworgies_index
   
@@ -45,15 +45,15 @@ body.tworgies_index
     :padding 20px
 
   #map_canvas
-    :border = 3px solid !active
-    :-moz-border-radius 3px
-    :-webkit-border-radius 3px
-    :border-radius 3px
+    :border = 4px solid !active
+    :-moz-border-radius 4px
+    :-webkit-border-radius 4px
+    :border-radius 4px
 
   #tworgy_lists
     :padding 0px
     :float left
-    :width 300px
+    :width 350px
     :margin 0px 20px 0px 0px
     :border none
     .ui-tabs
@@ -79,27 +79,36 @@ body.tworgies_index
       :background = !normal
       :border = 1px solid !border
       
-
   ul.tworgies
     :padding 0px
   li.tworgy
     :list-style none
     :margin 0px -10px
-    :padding 5px
+    :padding 7px
+    :cursor pointer
     &:hover 
       :background = !hover
     input 
-      :margin-right 10px
-      :cursor pointer
+      :margin-right 5px
     span 
-      :cursor pointer
-  li.tworgy.enabled 
-    :margin-right -36px
-    :background = !enabled
-  li.tworgy.active 
-    :background = !active
+      :padding 2px
   li.tworgy.hover
     :background = !hover
+
+  #allTworgies
+    li.tworgy
+      input 
+        :display none
+  #userTworgies
+    li.tworgy.fullAccess 
+    li.tworgy.limitedAccess 
+    li.tworgy.enabled 
+      :margin-right -44px
+      :background = !enabled
+    li.tworgy.active 
+      :background = !active
+      :margin-right -65px
+
 
 #header 
   :padding 20px 0
@@ -108,7 +117,7 @@ body.tworgies_index
 
 #container 
   :margin 0 auto
-  :width 900px
+  :width 1000px
 
 #user_bar 
   :padding 8px 12px

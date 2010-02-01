@@ -2,11 +2,41 @@ var tworgyMap;
 var userTworgies;
 var allTworgies;
 
-Jaml.register('tworgy', function(tworgy) {
-  li({class:'tworgy', ref:tworgy.id}
-    ,span(tworgy.name)
-  );
+Jaml.register('tworgy', function(tworgy, options) {
+    var klass = 'tworgy';
+    
+    if(options === undefined) {
+        options = {};
+    } else {
+    }
+    
+    if(tworgy.fullAccess) {
+        klass += ' fullAccess';
+    } else {
+        klass += ' limitedAccess';
+    }
+    
+    if(tworgy.enabled) {
+        klass += ' enabled';
+    }
+    
+    if(options.active) {
+        klass += ' active';
+    }
+
+    if(tworgy.enabled) {
+        li({'class':klass, ref:tworgy.id}
+            ,input({type:'checkbox', value:tworgy.id, checked:true})
+            ,span(tworgy.name)
+        );
+    } else {
+        li({'class':klass, ref:tworgy.id}
+            ,input({type:'checkbox', value:tworgy.id})
+            ,span(tworgy.name)
+        );
+    }
 });
+
 
 $(document).ready(function() {
 
@@ -19,11 +49,13 @@ $(document).ready(function() {
     });
     
     Tworgy.tworgyMap = tworgyMap;
+    Tworgy.currentUserID = currentUserID;
     Tworgy.callback = { 
-        tworgyRenderer: tworgyRenderer 
+        tworgyRenderer: tworgyRenderer
         ,markerClick: markerClick
         ,markerMouseOver: markerMouseOver
         ,markerMouseOut: markerMouseOut
+        ,getTworgyDom:getTworgyDom
     }
     
     allTworgies = new Tworgies({
@@ -42,7 +74,28 @@ $(document).ready(function() {
             setVisibleTworgies({userOnly:ui.tab.hash == '#userTworgies'});
         }
     });
+    
+    $("li.tworgy input").live('click', function() {
+        tworgyEvent(this, Tworgy.EventHandler.toggleEnabled);
+    });
+
+    $("li.tworgy span").live('click', function() {
+        $('li.tworgy.active').removeClass('active');
+        tworgyEvent(this, Tworgy.EventHandler.setActive);
+    });
+
 });
+
+function getTworgyDom(tworgyID) {
+    return $('li.tworgy[ref="' + tworgyID + '"]');
+}
+
+function tworgyEvent(element, eventHandler) {
+    var li = $(element).parent();
+    var tworgyID = li.attr('ref');
+    
+    eventHandler(tworgyID, li, element);
+}
 
 function setVisibleTworgies(options) {
     if(options.userOnly) {
@@ -67,21 +120,10 @@ function markerMouseOut(tworgy) {
 }
 
 function tworgyRenderer(tworgy) {
-    // return '<li class="tworgy" ref="' + tworgy.id + '">' + tworgy.name + '</li>';
     return Jaml.render('tworgy', tworgy);
 }
 
-function tworgiesPath() {
-    return '/tworgies.json';
-}
 
-function tworgiesCurrentUserOnlyPath() {
-    return tworgiesPath() + '?current_user_only=true';
-}
-
-function tworgyPath(tworgy_id) {
-  return '/tworgies/' + tworgy_id;
-}
 
 /////////////////////
 

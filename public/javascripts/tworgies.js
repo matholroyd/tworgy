@@ -6,15 +6,19 @@ function Tworgies(options) {
     this.domID = options.domID;
 
     var that = this;
+    this.hash = {};
+    this.data = [];
 
-    this.process = function(tworgies) {
+    this.load = function(tworgies) {
         this.hash = {};
+        this.data = [];
+
         for(var i = 0; i < tworgies.length; i++) {
             tworgies[i] = this.setupTworgy(tworgies[i]);
             this.hash[tworgies[i].id] = tworgies[i];
         }
         
-        return tworgies;
+        this.data = tworgies;
     }
     this.setupTworgy = function(tworgy) {
         var result = Tworgies.Cache.add(tworgy, this.tworgyMap);
@@ -38,7 +42,7 @@ function Tworgies(options) {
     }
  
     jQuery.getJSON(this.url, function(data) { 
-        that.data = that.process(data);
+        that.load(data);
     });
     
 }

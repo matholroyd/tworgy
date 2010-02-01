@@ -4,6 +4,12 @@
   %script{:type => "text/javascript", :src => "http://www.google.com/jsapi"}
   = javascript_include_tag %w{dbc tworgy_map tworgy tworgies tworgies_index}
     
+%script
+  - if current_user
+    = "var currentUserID = #{current_user.id};" 
+  - else
+    = "var currentUserID = undefined;" 
+    
 #columns
   #tworgy_lists
     #tabs
@@ -15,6 +21,13 @@
       #allTworgies
         %ul.tworgies
       #userTworgies
+        - unless current_user
+          - form_for UserSession.new, :url => user_session_path do |f|
+            = oauth_login_button :value => "Login with Twitter"
+          
+          - form_for User.new do |f|
+            = oauth_register_button :value => "Sign up with Twitter"
+          
         %ul.tworgies
       
       /     - current_user.tworgies.each do |tworgy|
