@@ -52,6 +52,7 @@ Tworgies.Cache = {
     array:[]
     ,hash:{}
     ,callback:{}
+    ,activeTworgy:null
     ,add:function(tworgyData) {
         var that = this;
         var result = this.hash[tworgyData.id];
@@ -67,5 +68,13 @@ Tworgies.Cache = {
     }
     ,contains:function(tworgy) {
         return this.hash[tworgy.id] != undefined;
+    }
+    ,find:function(tworgyID) {
+        return this.hash[tworgyID];
+    }
+    ,moveActiveTo:function(latLng) {
+        if(this.activeTworgy != null) {
+            this.activeTworgy.moveTo(latLng);
+        }
     }
 };

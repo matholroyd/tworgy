@@ -29,30 +29,31 @@ function Tworgy(data) {
     });
     
     function setupCallbacks() {
-        if(Tworgy.callback.markerClick) {
-            google.maps.event.addListener(that.marker, 'click', function(event) {
-                Tworgy.callback.markerClick(that);
-            });
-        }
+        google.maps.event.addListener(that.marker, 'click', function(event) {
+            that.onClick();
+        });
 
-        if(Tworgy.callback.markerMouseOver) {
-            google.maps.event.addListener(that.marker, 'mouseover', function(event) {
+        google.maps.event.addListener(that.marker, 'mouseover', function(event) {
+            if(Tworgy.callback.markerMouseOver) {
                 Tworgy.callback.markerMouseOver(that);
-            });
-        }
+            }
+        });
 
-        if(Tworgy.callback.markerMouseOut) {
-            google.maps.event.addListener(that.marker, 'mouseout', function(event) {
+        google.maps.event.addListener(that.marker, 'mouseout', function(event) {
+            if(Tworgy.callback.markerMouseOut) {
                 Tworgy.callback.markerMouseOut(that);
-            });
-        }
+            }
+        });
         
+        google.maps.event.addListener(that.marker, 'dragstart', function() {
+        });
+
         google.maps.event.addListener(that.marker, 'dragend', function() {
             that.latitude = that.marker.getPosition().lat();
             that.longitude = that.marker.getPosition().lng();
             that.update();
+            that.onClick();
         });
-        
     }
     
     setupCallbacks();
@@ -88,6 +89,21 @@ Tworgy.prototype = {
             this.longitude = latlng.lng();
         }
     }
+    ,onClick:function() {
+        Tworgy.callback.beforeClick(this);
+        Tworgies.Cache.activeTworgy = this;
+        this.refresh();
+    }
+    ,isActive:function() {
+        return this == Tworgies.Cache.activeTworgy;
+    }
+    ,moveTo:function(latLng) {
+        this.latitude = latLng.lat();
+        this.longitude = latLng.lng();
+        this.refreshMarker();
+        this.update();
+    }
+    
 }
 
 Tworgy.EventHandler = {

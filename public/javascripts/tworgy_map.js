@@ -15,16 +15,23 @@ function TworgyMap(options) {
     
     this.map = new google.maps.Map(jQuery(options.mapDomID)[0], myOptions);
     this.geocoder = new google.maps.Geocoder()
-    this.findAddress = function() {
-      var that = this;
-      this.geocoder.geocode( { 'address': jQuery('#inputAddress').val()}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          var geometry = results[0].geometry;
-
-          that.map.fitBounds(geometry.bounds);
-        } else {
-          alert("Geocode was not successful for the following reason: " + status);
-        }
-      });
+ 
+    this.findPosition = function(address, callback) {
+        this.geocoder.geocode( { 'address': address}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                callback(results[0].geometry);
+            } else {
+            }
+        });
+    };
+ 
+    this.findAddress = function(latLng, callback) {
+        this.geocoder.geocode({latLng: latLng}, function(responses) {
+            if (responses && responses.length > 0) {
+              callback(responses[0].formatted_address);
+            } else {
+              callback('Cannot determine address at this location.');
+            }
+        });
     };
 }

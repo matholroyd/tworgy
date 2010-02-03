@@ -49,12 +49,12 @@
       /   - semantic_form_for UserSession.new, :url => user_session_path do |f|
       /     = oauth_login_button :value => "Login with Twitter"
   %fieldset#map
-    %form{:onsubmit => 'return false;'}
-      %label Find a location:
-      %input#inputAddress{:type => 'text', :value => '', :size => 60}
-      %input#findAddress{:type => 'submit', :value => 'Find'}
-
     #map_canvas{:style => "width:auto; height:400px; margin:20px 0px;"}
+    %form{:onsubmit => 'return false;'}
+      %label Location:
+      %input#inputAddress{:type => 'text', :value => '', :size => 55}
+      %input#findAddress{:type => 'submit', :value => 'Find'}
+      %input#moveTworgyToAddress{:type => 'submit', :value => 'Move Tworgy To'}
 
 / #dialogSetMarker{:title => "Mark location of "}
 /   %p

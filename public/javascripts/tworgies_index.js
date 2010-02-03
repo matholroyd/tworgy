@@ -20,7 +20,7 @@ Jaml.register('tworgy', function(tworgy, options) {
         klass += ' enabled';
     }
     
-    if(options.active) {
+    if(tworgy.isActive()) {
         klass += ' active';
     }
 
@@ -43,16 +43,12 @@ $(document).ready(function() {
     tworgyMap = new TworgyMap({
         mapDomID:"#map_canvas"
     });
-
-    $('#findAddress').click(function() {
-        tworgyMap.findAddress();
-    });
     
     Tworgy.tworgyMap = tworgyMap;
     Tworgy.currentUserID = currentUserID;
     Tworgy.callback = { 
         tworgyRenderer: tworgyRenderer
-        ,markerClick: markerClick
+        ,beforeClick: beforeClick
         ,markerMouseOver: markerMouseOver
         ,markerMouseOut: markerMouseOut
         ,getTworgyDom:getTworgyDom
@@ -80,13 +76,34 @@ $(document).ready(function() {
     });
 
     $("li.tworgy span").live('click', function() {
-        $('li.tworgy.active').removeClass('active');
-        tworgyEvent(this, Tworgy.EventHandler.setActive);
+        var tworgy = findTworgy(this);
+        tworgy.onClick();
     });
+    
+    $('#findAddress').click(function() {
+        var address = $('#inputAddress').val();
+        tworgyMap.findPosition(address, function(geometry) {
+            tworgyMap.map.fitBounds(geometry.viewport);
+        });
+    });
+    $('#moveTworgyToAddress').click(function() {
+        var address = $('#inputAddress').val();
+        tworgyMap.findPosition(address, function(geometry) {
+            tworgyMap.map.fitBounds(geometry.viewport);
+            Tworgies.Cache.moveActiveTo(geometry.location);
+        });
+    });
+    
 });
 
 function getTworgyDom(tworgyID) {
     return $('li.tworgy[ref="' + tworgyID + '"]');
+}
+
+function findTworgy(element) {
+    var li = $(element).parent();
+    var tworgyID = li.attr('ref');
+    return Tworgies.Cache.find(tworgyID);
 }
 
 function tworgyEvent(element, eventHandler) {
@@ -104,9 +121,12 @@ function setVisibleTworgies(options) {
     }
 }
 
-function markerClick(tworgy) {
+function beforeClick(tworgy) {
+    tworgyMap.map.panTo(tworgy.marker.getPosition());
     $('.tworgy').removeClass('active');
-    $('.tworgy[ref="' + tworgy.id + '"]').addClass('active');
+    var address = tworgyMap.findAddress(tworgy.marker.getPosition(), function(address) {
+        $('#inputAddress').val(address);
+    });
 }
 
 function markerMouseOver(tworgy) {
