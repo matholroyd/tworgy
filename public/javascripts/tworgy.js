@@ -46,6 +46,13 @@ function Tworgy(data) {
                 Tworgy.callback.markerMouseOut(that);
             });
         }
+        
+        google.maps.event.addListener(that.marker, 'dragend', function() {
+            that.latitude = that.marker.getPosition().lat();
+            that.longitude = that.marker.getPosition().lng();
+            that.update();
+        });
+        
     }
     
     setupCallbacks();
