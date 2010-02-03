@@ -34,4 +34,7 @@ function TworgyMap(options) {
             }
         });
     };
+    this.zoomIn = function() {
+        this.map.setZoom(this.map.getZoom() - 2);
+    }
 }

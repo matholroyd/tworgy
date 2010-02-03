@@ -32,6 +32,10 @@ function Tworgy(data) {
         google.maps.event.addListener(that.marker, 'click', function(event) {
             that.onClick();
         });
+        
+        google.maps.event.addListener(that.marker, 'dblclick', function(event) {
+            that.onDblClick();
+        });
 
         google.maps.event.addListener(that.marker, 'mouseover', function(event) {
             if(Tworgy.callback.markerMouseOver) {
@@ -69,6 +73,9 @@ Tworgy.prototype = {
         }, null, 'json');
         this.refresh();
     }
+    ,getPosition:function() {
+        return new google.maps.LatLng(this.latitude, this.longitude);
+    }
     ,refresh:function(options) {
         this.checkLatLng();
 
@@ -80,7 +87,7 @@ Tworgy.prototype = {
     ,refreshMarker:function() {
         this.marker.setVisible(this.visible && this.enabled);
         this.marker.setDraggable(this.fullAccess);
-        this.marker.setPosition(new google.maps.LatLng(this.latitude, this.longitude));
+        this.marker.setPosition(this.getPosition());
     }
     ,checkLatLng:function() {
         if((this.latitude == null || this.longitude == null) && (this.enabled && this.visible)) {
@@ -92,7 +99,14 @@ Tworgy.prototype = {
     ,onClick:function() {
         Tworgy.callback.beforeClick(this);
         Tworgies.Cache.activeTworgy = this;
-        this.refresh();
+    }
+    ,onDblClick:function() {
+        Tworgy.tworgyMap.map.setZoom(15);
+        Tworgy.tworgyMap.map.panTo(this.getPosition());
+    }
+    ,enabledToggle:function() {
+        this.enabled = !this.enabled;
+        this.update();
     }
     ,isActive:function() {
         return this == Tworgies.Cache.activeTworgy;
@@ -105,16 +119,3 @@ Tworgy.prototype = {
     }
     
 }
-
-Tworgy.EventHandler = {
-    toggleEnabled:function(tworgyID, tworgyDom, element) {
-        var tworgy = Tworgies.Cache.hash[tworgyID];
-        
-        tworgy.enabled = !tworgy.enabled;
-        tworgy.update();
-    }
-    ,setActive:function(tworgyID, tworgyDom, element) {
-        var tworgy = Tworgies.Cache.hash[tworgyID];
-        tworgy.refresh({active:true});
-    }
-};

@@ -51,7 +51,7 @@ $(document).ready(function() {
         ,beforeClick: beforeClick
         ,markerMouseOver: markerMouseOver
         ,markerMouseOut: markerMouseOut
-        ,getTworgyDom:getTworgyDom
+        ,getTworgyDom: getTworgyDom
     }
     
     allTworgies = new Tworgies({
@@ -72,12 +72,18 @@ $(document).ready(function() {
     });
     
     $("li.tworgy input").live('click', function() {
-        tworgyEvent(this, Tworgy.EventHandler.toggleEnabled);
+        var tworgy = findTworgy(this);
+        tworgy.enabledToggle();
     });
 
     $("li.tworgy span").live('click', function() {
         var tworgy = findTworgy(this);
         tworgy.onClick();
+    });
+
+    $("li.tworgy span").live('dblclick', function() {
+        var tworgy = findTworgy(this);
+        tworgy.onDblClick();
     });
     
     $('#findAddress').click(function() {
@@ -122,9 +128,9 @@ function setVisibleTworgies(options) {
 }
 
 function beforeClick(tworgy) {
-    tworgyMap.map.panTo(tworgy.marker.getPosition());
     $('.tworgy').removeClass('active');
-    var address = tworgyMap.findAddress(tworgy.marker.getPosition(), function(address) {
+    $('.tworgy[ref="' + tworgy.id + '"]').addClass('active');
+    tworgyMap.findAddress(tworgy.marker.getPosition(), function(address) {
         $('#inputAddress').val(address);
     });
 }
