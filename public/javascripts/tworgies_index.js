@@ -83,7 +83,6 @@ $(document).ready(function() {
         $('li.tworgy.active').removeClass('active');
         tworgyEvent(this, Tworgy.EventHandler.setActive);
     });
-
 });
 
 function getTworgyDom(tworgyID) {

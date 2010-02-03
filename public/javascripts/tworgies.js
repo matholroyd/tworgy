@@ -34,10 +34,11 @@ function Tworgies(options) {
         for(var i = 0; i < Tworgies.Cache.array.length; i++) {
             tworgy = Tworgies.Cache.array[i];
             if(this.hash[tworgy.id] != undefined) {
-                tworgy.marker.setVisible(visible);
+                tworgy.visible = visible;
             } else {
-                tworgy.marker.setVisible(!visible);
+                tworgy.visible = !visible;
             }
+            tworgy.refresh();
         }
     }
  

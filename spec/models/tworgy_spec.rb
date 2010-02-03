@@ -30,6 +30,31 @@ describe Tworgy do
     Tworgy.make_unsaved(:user => User.make).should have(1).error_on(:user)
   end
   
+  describe 'lat and lng' do
+    before :each do
+      @tworgy = @user.tworgies.make
+    end
+    
+    [:latitude, :longitude].each do |field|
+      it "should set #{field} to nil if NAN" do
+        @tworgy[field] = BigDecimal.new('NaN')
+        @tworgy[field].should be_nan
+        @tworgy.save!
+        @tworgy.reload
+        @tworgy[field].should be_nil
+      end
+
+      it "should set #{field} to nil if 0.0" do
+        @tworgy[field] = 0.0
+        @tworgy.save!
+        @tworgy.reload
+        @tworgy[field].should be_nil
+      end
+    end
+    
+  end
+  
+  
   describe 'temp variable' do
     [:add_yourself, :follow_list].each do |field|
       it "#{field} should be available" do

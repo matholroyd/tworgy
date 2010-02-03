@@ -102,16 +102,15 @@ body.tworgies_index
     li.tworgy.enabled 
       :margin-right -65px
       :background = !enabled
+  #allTworgies, #userTworgies
     li.tworgy.active 
       :background = !active
-      :margin-right -65px
-  #allTworgies, #userTworgies
-    li.tworgy.hover
-      :background = !hover
-    li.tworgy.active
       span
         &:before
           :content "» "
+    li.tworgy.hover
+      :background = !hover
+    li.tworgy.active
         
 
 

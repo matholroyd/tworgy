@@ -23,41 +23,65 @@ function Tworgy(data) {
 
     var that = this;
     this.fullAccess = this.user_id == Tworgy.currentUserID;
+    this.visible = true;
     this.marker = new google.maps.Marker({
-        position: new google.maps.LatLng(this.latitude, this.longitude)
-        ,map: Tworgy.tworgyMap.map
-        ,title: this.name
-        ,draggable:this.fullAccess
+        map: Tworgy.tworgyMap.map
     });
     
-    if(Tworgy.callback.markerClick) {
-        google.maps.event.addListener(this.marker, 'click', function(event) {
-            Tworgy.callback.markerClick(that);
-        });
-    }
+    function setupCallbacks() {
+        if(Tworgy.callback.markerClick) {
+            google.maps.event.addListener(that.marker, 'click', function(event) {
+                Tworgy.callback.markerClick(that);
+            });
+        }
 
-    if(Tworgy.callback.markerMouseOver) {
-        google.maps.event.addListener(this.marker, 'mouseover', function(event) {
-            Tworgy.callback.markerMouseOver(that);
-        });
-    }
+        if(Tworgy.callback.markerMouseOver) {
+            google.maps.event.addListener(that.marker, 'mouseover', function(event) {
+                Tworgy.callback.markerMouseOver(that);
+            });
+        }
 
-    if(Tworgy.callback.markerMouseOut) {
-        google.maps.event.addListener(this.marker, 'mouseout', function(event) {
-            Tworgy.callback.markerMouseOut(that);
-        });
+        if(Tworgy.callback.markerMouseOut) {
+            google.maps.event.addListener(that.marker, 'mouseout', function(event) {
+                Tworgy.callback.markerMouseOut(that);
+            });
+        }
     }
     
-    this.update = function() {
-        $.put(tworgyPath(this.id), {'tworgy[enabled]': this.enabled}, null, 'json');
-        this.refresh();
-    };
+    setupCallbacks();
+    this.refreshMarker();
+};
 
-    this.refresh = function(options) {
+Tworgy.prototype = {
+    update:function() {
+        jQuery.put(tworgyPath(this.id), {
+            'tworgy[enabled]': this.enabled
+            ,'tworgy[longitude]':this.marker.getPosition().lng()
+            ,'tworgy[latitude]':this.marker.getPosition().lat()
+        }, null, 'json');
+        this.refresh();
+    }
+    ,refresh:function(options) {
+        this.checkLatLng();
+
         var tworgyDom = Tworgy.callback.getTworgyDom(this.id);
         tworgyDom.replaceWith(Jaml.render('tworgy', this, options));
-    };
-};
+
+        this.refreshMarker();
+    }
+    ,refreshMarker:function() {
+        this.marker.setVisible(this.visible && this.enabled);
+        this.marker.setDraggable(this.fullAccess);
+        this.marker.setPosition(new google.maps.LatLng(this.latitude, this.longitude));
+    }
+    ,checkLatLng:function() {
+        if((this.latitude == null || this.longitude == null) && (this.enabled && this.visible)) {
+            var latlng = Tworgy.tworgyMap.map.getCenter();
+            this.latitude = latlng.lat();
+            this.longitude = latlng.lng();
+        }
+    }
+}
 
 Tworgy.EventHandler = {
     toggleEnabled:function(tworgyID, tworgyDom, element) {
