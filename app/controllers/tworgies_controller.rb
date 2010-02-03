@@ -4,12 +4,13 @@ class TworgiesController < ApplicationController
   
   resource_controller  
 
+  index.before do
+    @tworgy = Tworgy.new
+  end
+
   index.response do |wants|
     wants.html
     wants.json do 
-      # render :json => collection.serialize(:json, :attributes => 
-      #   %w{id twitter_list_id name slug members_count subscribers_count uri latitude longitude} 
-      # )
       render :json => collection.to_json
     end
     

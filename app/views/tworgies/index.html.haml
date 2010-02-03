@@ -21,14 +21,15 @@
       #allTworgies
         %ul.tworgies
       #userTworgies
-        - unless current_user
+        - if current_user
+          %ul.tworgies
+        - else
           - form_for UserSession.new, :url => user_session_path do |f|
             = oauth_login_button :value => "Login with Twitter"
           
           - form_for User.new do |f|
             = oauth_register_button :value => "Sign up with Twitter"
           
-        %ul.tworgies
       
       /     - current_user.tworgies.each do |tworgy|
       /       %li.tworgy{:ref => tworgy.id}
@@ -37,25 +38,28 @@
       /   %p
       /     %a#addList{:href => '#'} Add list
       /     = link_to 'Refresh tworgies', refresh_tworgies_path
-      /   %fieldset#fieldsAddList.tworgy
-      /     - semantic_form_for @tworgy do |f|
-      /       - f.inputs do
-      /         = f.input :name, :input_html => {:maxlength => 20, :size => 20}
-      /         = f.input :add_yourself, :as => :boolean
-      /         = f.input :follow_list, :as => :boolean
-      /       - f.buttons do
-      /         = f.commit_button 
       / - else
       /   - semantic_form_for UserSession.new, :url => user_session_path do |f|
       /     = oauth_login_button :value => "Login with Twitter"
   %fieldset#map
-    #map_canvas{:style => "width:auto; height:400px; margin:20px 0px;"}
     %form{:onsubmit => 'return false;'}
       %label Location:
       %input#inputAddress{:type => 'text', :value => '', :size => 55}
       %input#findAddress{:type => 'submit', :value => 'Find'}
       %input#moveTworgyToAddress{:type => 'submit', :value => 'Move Tworgy To'}
 
+    #map_canvas{:style => "width:auto; height:400px; margin:20px 0px;"}
+    - if current_user
+      %fieldset#tworgyForm
+        - semantic_form_for @tworgy do |f|
+          - f.inputs do
+            = f.input :name, :input_html => {:maxlength => 20, :size => 20}
+            = f.input :add_yourself, :as => :boolean
+            = f.input :follow_list, :as => :boolean
+          - f.buttons do
+            = f.commit_button 
+
+ 
 / #dialogSetMarker{:title => "Mark location of "}
 /   %p
 /     %label Name
