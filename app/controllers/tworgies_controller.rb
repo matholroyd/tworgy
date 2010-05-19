@@ -15,6 +15,8 @@ class TworgiesController < ApplicationController
     end
     
   end
+  
+  update.wants.html { redirect_to(tworgies_path) }
 
   def refresh
     current_user.repopulate_tworgies
@@ -29,9 +31,12 @@ class TworgiesController < ApplicationController
       render :index
     end
   end
+  
+  def members
+    
+    render :json => [].to_json
+  end
 
-
-  update.wants.html { redirect_to(tworgies_path) }
 
   private 
   

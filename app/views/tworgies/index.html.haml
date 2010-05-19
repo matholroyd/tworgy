@@ -12,7 +12,7 @@
     
 #columns
   #tworgy_lists
-    #tabs
+    #tworgyTabs
       %ul
         %li
           %a{:href => '#allTworgies', :ref => 'allTworgies'} All
@@ -23,6 +23,8 @@
       #userTworgies
         - if current_user
           %ul.tworgies
+          %p
+            %a#linkCreateTworgy.button{:href => '#'} Create Tworgy
         - else
           - form_for UserSession.new, :url => user_session_path do |f|
             = oauth_login_button :value => "Login with Twitter"
@@ -48,16 +50,31 @@
       %input#findAddress{:type => 'submit', :value => 'Find'}
       %input#moveTworgyToAddress{:type => 'submit', :value => 'Move Tworgy To'}
 
-    #map_canvas{:style => "width:auto; height:400px; margin:20px 0px;"}
+    #map_canvas
     - if current_user
-      %fieldset#tworgyForm
+      %fieldset.tworgyForm#newTworgy
         - semantic_form_for @tworgy do |f|
           - f.inputs do
             = f.input :name, :input_html => {:maxlength => 20, :size => 20}
-            = f.input :add_yourself, :as => :boolean
-            = f.input :follow_list, :as => :boolean
+            / = f.input :add_yourself, :as => :boolean
+            / = f.input :follow_list, :as => :boolean
           - f.buttons do
             = f.commit_button 
+    #twitterers
+      / %ul
+      /   %li
+      /     %a{:href => '#members', :ref => 'subscribers'} All
+      /   %li
+      /     %a{:href => '#subscribers', :ref => 'subscribers'} Your tworgies
+      #members
+        %h3 Members
+        %ul.list
+          %li fdsfa
+      #subscribers
+        %h3 Subscribers
+        %ul.list
+          %li fdsfa
+      
 
  
 / #dialogSetMarker{:title => "Mark location of "}

@@ -70,7 +70,7 @@ describe TworgiesController do
         UserSession.create(@user)
       end
   
-      it 'should return success' do
+      it 'should return redirect' do
         post :create, :tworgy => {:name => 'some name'}
         response.should redirect_to(tworgies_path)
       end
@@ -144,6 +144,17 @@ describe TworgiesController do
       end
     end
 
+  end
+  
+  describe 'get members' do
+    before :each do
+      @tworgy = @user.tworgies.make
+    end
+    
+    it 'should return all the members for a tworgy in JSON' do
+      get :members, :id => @tworgy.id, :format => 'json'
+      response.should be_success
+    end
   end
   
 end

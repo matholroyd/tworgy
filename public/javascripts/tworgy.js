@@ -26,6 +26,7 @@ function Tworgy(data) {
     this.visible = true;
     this.marker = new google.maps.Marker({
         map: Tworgy.tworgyMap.map
+        ,title: this.name
     });
     
     function setupCallbacks() {
@@ -117,5 +118,14 @@ Tworgy.prototype = {
         this.refreshMarker();
         this.update();
     }
-    
+    ,getMembers:function(callback) {
+        jQuery.getJSON(this.url, function(data) { 
+            that.load(data);
+        });
+        
+    }
+    ,getSubscribers:function(callback) {
+        
+    }
 }
+ 

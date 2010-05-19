@@ -64,8 +64,8 @@ $(document).ready(function() {
         ,domID: '#userTworgies ul.tworgies'
     });
 
-    $('#tabs').tabs({
-        selected:0
+    $('#tworgyTabs').tabs({
+        selected:1
         ,select: function(event, ui) { 
             setVisibleTworgies({userOnly:ui.tab.hash == '#userTworgies'});
         }
@@ -98,6 +98,14 @@ $(document).ready(function() {
             tworgyMap.map.fitBounds(geometry.viewport);
             Tworgies.Cache.moveActiveTo(geometry.location);
         });
+    });
+    
+    $('#linkCreateTworgy').click(function() {
+        $('#twitterers').hide();
+        $('.tworgyForm').show();
+        $('.tworgyForm input#tworgy_name').focus();
+        $('.tworgy').removeClass('active');
+        
     });
     
 });
@@ -133,6 +141,10 @@ function beforeClick(tworgy) {
     tworgyMap.findAddress(tworgy.marker.getPosition(), function(address) {
         $('#inputAddress').val(address);
     });
+    
+    $('.tworgyForm').hide();
+    $('#twitterers').show();
+    $('#twitterers ul.list li').remove();
 }
 
 function markerMouseOver(tworgy) {
